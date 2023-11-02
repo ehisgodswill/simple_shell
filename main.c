@@ -16,9 +16,9 @@ int main(void)
 	while (1)
 	{
 		/**
-		 * $buffer temporarily stores the current working directory 
+		 * $buffer temporarily stores the current working directory
 		 * and stores it in $path variable
-		*/
+		 */
 		buffer = (char *)malloc(sizeof(char) * bufsize);
 		if (buffer == NULL)
 		{
@@ -29,7 +29,7 @@ int main(void)
 		if (path == NULL)
 			return (-1);
 
-		printf("%s>", path);
+		printf("#cisfun$ ", path);
 		/*$buffer now stores the shring input*/
 		char_read = getline(&buffer, &bufsize, stdin);
 		if (char_read == -1)
@@ -38,9 +38,9 @@ int main(void)
 			continue;
 
 		printf("%s", buffer);
-		free(buffer);
-		free(path);
 	}
+	free(buffer);
+	free(path);
 
 	return (0);
 }
