@@ -6,13 +6,16 @@
  */
 int main(void)
 {
-	/**/ size_t bufsize = BUFSIZ;
+	/*variable declaration*/
+	size_t bufsize = BUFSIZ;
 	ssize_t char_read;
 	char *path;
 	char *buffer;
 
+	/*an infinite loop, that runs until exit*/
 	while (1)
 	{
+		/*$buffer temporarily stores the current working directory and stores it in $path variable*/
 		buffer = (char *)malloc(sizeof(char) * bufsize);
 		if (buffer == NULL)
 		{
@@ -24,9 +27,12 @@ int main(void)
 			return (-1);
 
 		printf("%s>", path);
+		/*$buffer now stores the shring input*/
 		char_read = getline(&buffer, &bufsize, stdin);
 		if (char_read == -1)
 			return (-1);
+		if (char_read == 1)
+			continue;
 
 		printf("%s", buffer);
 		free(buffer);
