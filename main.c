@@ -29,7 +29,7 @@ int main(void)
 		if (path == NULL)
 			return (-1);
 
-		printf("#cisfun$ ", path);
+		printf("#cisfun$ ");
 		/*$buffer now stores the shring input*/
 		char_read = getline(&buffer, &bufsize, stdin);
 		if (char_read == -1)
