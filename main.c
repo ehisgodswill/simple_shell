@@ -1,69 +1,41 @@
-#include "main.h"
-
+#include <stdio.h>
+#include "shell.h"
 /**
- * main - a program that prints its name, followed by a new line
- * @argc: arguement count
- * @argv: argument value, a strings that come after calling function
- * Return: Always 0 (Success)
+ * main - main logic
+ * Return: 0 success
  */
-int main(int argc, char *argv[])
+int main(void)
 {
-	/*variable declaration*/
-	size_t bufsize = BUFSIZ;
-	ssize_t char_read;
-	char *temp, *buffer, *token;
-	int num = 0;
-	char *s = " ";
+	char input[1024];
+	Command cmd;
 
-	(void)argc;
-	(void)argv;
-	/*an infinite loop, that runs until exit*/
 	while (1)
 	{
-		buffer = (char *)malloc(sizeof(char) * bufsize);
-		if (buffer == NULL)
-		{
-			perror("Allocate buffer failed\n");
-			exit(-1);
-		}
-		temp= getcwd(buffer, PATH_MAX);
-		if (temp == NULL)
-			return (-1);
+		printf("$ ");
 
-		printf("#cisfun$ ");
-		char_read = getline(&buffer, &bufsize, stdin);
-		if (char_read == -1)
-			return (-1);
-		if (char_read == 1)
-			continue;
-		temp = malloc(sizeof(char) * char_read);
-		if (temp == NULL)
+		if (fgets(input, sizeof(input), stdin) == NULL)
 		{
-			perror("Allocate buffer failed\n");
-			exit(-1);
+			perror("fgets");
+			exit(1);
 		}
-		strcpy(temp, buffer);
-		token = strtok(temp, s);
-		num = 0;
-		while (token != NULL)
+		input[strlen(input) - 1] = '\0';
+
+		cmd.input_file = STDIN_FILENO;
+		cmd.output_file = STDOUT_FILENO;
+
+		tokenize_input(input, &cmd);
+
+		if (cmd.name != NULL)
 		{
-			num++;
-			token = strtok(NULL, s);
+			if (strcmp(cmd.name, "exit") == 0)
+				exit(0);
+			else if (strcmp(cmd.name, "env") == 0)
+			{
+				print_environment();
+				continue;
+			}
 		}
-		strcpy(temp, buffer);
-		token = strtok(temp, s);
-		argv = malloc(sizeof (char *) * num);
-		for (num = 0; token != NULL; num++)
-		{
-			argv[num] = malloc(sizeof(char) * strlen(token));
-			strcpy(argv[num], token);
-			token = strtok(NULL, s);
-		}
-		argv[num] = NULL;
-		free(buffer);
-		free(temp);
-		free(token);
+		execute_command(&cmd);
 	}
-
 	return (0);
 }
