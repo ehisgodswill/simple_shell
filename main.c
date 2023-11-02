@@ -15,8 +15,9 @@ int main(void)
 	/*an infinite loop, that runs until exit*/
 	while (1)
 	{
-		/*$buffer temporarily stores the current working directory 
-		* and stores it in $path variable
+		/**
+		 * $buffer temporarily stores the current working directory 
+		 * and stores it in $path variable
 		*/
 		buffer = (char *)malloc(sizeof(char) * bufsize);
 		if (buffer == NULL)
