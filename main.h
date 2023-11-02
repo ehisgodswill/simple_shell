@@ -7,4 +7,10 @@
 #include <limits.h>
 #include <string.h>
 
+/**
+ * structure data - all data needed at run time
+ * @argc: Argument count
+ * @argv: Argument vector 
+*/
+
 #endif
