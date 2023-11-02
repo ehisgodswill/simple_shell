@@ -9,8 +9,18 @@
 
 /**
  * structure data - all data needed at run time
- * @argc: Argument count
- * @argv: Argument vector 
+ * @argv: Argument vector
+ * @command: command written to execute
+ * @pid: shell process id
+ * @env: enviromental variable
+ * 
 */
+typedef struct data
+{
+    int argc;
+    char **argv;
+    char *command, *pid, *env;
+} data;
 
+void setdata(data shelldata,char **av);
 #endif
