@@ -17,11 +17,11 @@ void tokenize_input(char *input, Command *cmd)
 		cmd->name = NULL;
 		return;
 	}
-	cmd->name = strdup(token);
+	cmd->name = token;
 
 	while  ((token = strtok(NULL, " ")) != NULL && i < 19)
 	{
-		cmd->arguments[i] = strdup(token);
+		cmd->arguments[i] = token;
 		i++;
 	}
 	cmd->arguments[i] = NULL;
