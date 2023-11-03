@@ -13,7 +13,7 @@ extern char **environ;
  * @arguments: array of argument vector
  * @input_file: input fd
  * @output_file: output fd
- * 
+ *
  * Description: struct that holds all relevant command and argument
  */
 typedef struct command

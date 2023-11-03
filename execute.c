@@ -5,10 +5,7 @@
  * @cmd - pointer to command
  * Return: Nothing
 */
-void exec_line(Command *cmd)
-{
 
-}
 
 /**
  * execute_command - executes commands and fork the child process
