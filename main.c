@@ -10,7 +10,7 @@ int main(void)
 
 	while (1)
 	{
-		if (isatty(stdin))
+		if (isatty(STDIN_FILENO))
 			printf("$ ");
 
 		if (fgets(input, sizeof(input), stdin) == NULL)
