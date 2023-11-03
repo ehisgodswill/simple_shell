@@ -9,12 +9,12 @@ void exec_line(Command *cmd)
 {
 	char *path, *path_copy, *arguments[2], *token, command_path[1024];
 
-	if (strchr(cmd->name, '/') == NULL)
+	if (_strchr(cmd->name, '/') == NULL)
 	{
 		path = getenv("PATH");
 		if (path != NULL)
 		{
-			path_copy = strdup(path);
+			path_copy = __strdup(path);
 			token = strtok(path_copy, ":");
 			while (token != NULL)
 			{

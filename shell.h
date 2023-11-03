@@ -28,4 +28,11 @@ void tokenize_input(char *input, Command *cmd);
 void execute_command(Command *cmd);
 void print_environment(void);
 
+/* helper functions */
+
+char *_strchr(char *s, char c);
+int _strlen(char *s);
+int _strcmp(char *s1, char *s2);
+char *__strdup(char *str);
+
 #endif

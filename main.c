@@ -5,14 +5,15 @@
  */
 int main(void)
 {
-	char input[1024];
+	char *input;
+	size_t bufsize = 32;
 	Command cmd;
 
 	while (1)
 	{
 		printf("$ ");
-
-		if (fgets(input, sizeof(input), stdin) == NULL)
+		input = (char *)malloc(bufsize * sizeof(char));
+		if (getline(&input, &bufsize, stdin) == -1)
 		{
 			if (feof(stdin))
 			{
@@ -22,7 +23,7 @@ int main(void)
 			perror("fgets");
 			exit(1);
 		}
-		input[strlen(input) - 1] = '\0';
+		input[_strlen(input) - 1] = '\0';
 
 		if (input[0] != '\0')
 		{
@@ -32,9 +33,9 @@ int main(void)
 			tokenize_input(input, &cmd);
 			if (cmd.name != NULL)
 			{
-				if (strcmp(cmd.name, "exit") == 0)
+				if (_strcmp(cmd.name, "exit") == 0)
 					exit(0);
-				else if (strcmp(cmd.name, "env") == 0)
+				else if (_strcmp(cmd.name, "env") == 0)
 				{
 					print_environment();
 					continue;
