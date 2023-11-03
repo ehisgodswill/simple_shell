@@ -7,7 +7,16 @@ extern char **environ;
 #include <string.h>
 #include <unistd.h>
 
-typedef struct
+/**
+ * struct command - command structure
+ * @name: name of the command
+ * @arguments: array of argument vector
+ * @input_file: input fd
+ * @output_file: output fd
+ *
+ * Description: struct that holds all relevant command and argument
+ */
+typedef struct command
 {
 	char *name;
 	char *arguments[20];

@@ -28,7 +28,7 @@ int main(void)
 		{
 			cmd.input_file = STDIN_FILENO;
 			cmd.output_file = STDOUT_FILENO;
-			
+
 			tokenize_input(input, &cmd);
 			if (cmd.name != NULL)
 			{
