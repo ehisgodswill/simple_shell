@@ -8,12 +8,13 @@ extern char **environ;
 #include <unistd.h>
 
 /**
- * struct - Command
- * Description: struct that holds all relevant command and argument
+ * struct command - command structure
  * @name: name of the command
  * @arguments: array of argument vector
  * @input_file: input fd
  * @output_file: output fd
+ * 
+ * Description: struct that holds all relevant command and argument
  */
 typedef struct command
 {
