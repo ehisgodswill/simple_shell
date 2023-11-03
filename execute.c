@@ -1,20 +1,19 @@
-#include <unistd.h>
 #include <sys/wait.h>
 #include "shell.h"
-#include <stdio.h>
 /**
- * execute_command - executes commands and fork the
- * child process
+ * exec_line - executes the command
+ * @cmd - pointer to command
+ * Return: Nothing
+*/
+/**
+ * execute_command - executes commands and fork the child process
  * @cmd: pointer to command
+ * Return: void
  */
 void execute_command(Command *cmd)
 {
 	pid_t child_pid;
-	char *path;
-	char *path_copy;
-	char *arguments[2];
-	char *token;
-	char command_path[1024];
+	char *path, *path_copy, *arguments[2], *token, command_path[1024];
 
 	if (cmd->name == NULL)
 		return;
@@ -63,3 +62,5 @@ void execute_command(Command *cmd)
 	else
 		wait(NULL);
 }
+
+
