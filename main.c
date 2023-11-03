@@ -17,7 +17,7 @@ int main(void)
 		{
 			if (feof(stdin))
 			{
-				printf("\n");
+				/* printf("\n"); */
 				exit(0);
 			}
 			perror("fgets");
