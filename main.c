@@ -10,13 +10,14 @@ int main(void)
 
 	while (1)
 	{
-		printf("$ ");
+		if (isatty(STDIN_FILENO))
+			printf("$ ");
 
 		if (fgets(input, sizeof(input), stdin) == NULL)
 		{
 			if (feof(stdin))
 			{
-				printf("\n");
+				/* printf("\n"); */
 				exit(0);
 			}
 			perror("fgets");

@@ -6,6 +6,7 @@ extern char **environ;
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 /**
  * struct command - command structure
