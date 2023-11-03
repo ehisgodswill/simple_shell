@@ -6,6 +6,7 @@ extern char **environ;
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 /**
  * struct command - command structure
@@ -27,5 +28,6 @@ typedef struct command
 void tokenize_input(char *input, Command *cmd);
 void execute_command(Command *cmd);
 void print_environment(void);
+void get_sigint();
 
 #endif
