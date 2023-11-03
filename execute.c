@@ -60,7 +60,7 @@ void execute_command(Command *cmd)
 			dup2(cmd->output_file, STDOUT_FILENO);
 			close(cmd->output_file);
 		}
-		exec_line(&cmd);
+		exec_line(cmd);
 		perror("execve");
 		exit(1);
 	}
