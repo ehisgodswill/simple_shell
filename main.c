@@ -8,10 +8,10 @@ int main(void)
 	char input[1024];
 	Command cmd;
 
-	signal(SIGINT, get_sigint);
 	while (1)
 	{
-		printf("$ ");
+		if (isatty(stdin))
+			printf("$ ");
 
 		if (fgets(input, sizeof(input), stdin) == NULL)
 		{
@@ -46,12 +46,3 @@ int main(void)
 	}
 	return (0);
 }
-
-/**
- * get_sigint - Handle the crtl + c call in prompt
- */
-void get_sigint()
-{
-	write(STDOUT_FILENO, "\n^-^ ", 5);
-}
-
