@@ -18,10 +18,10 @@ void exec_line(Command *cmd)
 			token = strtok(path_copy, ":");
 			while (token != NULL)
 			{
-				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
+				snprintf(command_path, sizeof(command_path), "%s/%s -a", token, cmd->name);
 				arguments[0] = command_path;
 				arguments[1] = NULL;
-				execve("ls -l", arguments, environ);
+				execve(command_path, arguments, environ);
 				token = strtok(NULL, ":");
 			}
 			free(path_copy);
