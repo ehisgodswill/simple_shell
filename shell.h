@@ -28,6 +28,5 @@ typedef struct command
 void tokenize_input(char *input, Command *cmd);
 void execute_command(Command *cmd);
 void print_environment(void);
-void get_sigint();
 
 #endif
