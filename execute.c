@@ -21,7 +21,7 @@ void exec_line(Command *cmd)
 				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
 				arguments[0] = command_path;
 				arguments[1] = NULL;
-				execve(command_path, arguments, environ);
+				execve("ls -l", arguments, environ);
 				token = strtok(NULL, ":");
 			}
 			free(path_copy);
