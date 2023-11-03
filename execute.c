@@ -7,7 +7,7 @@
  */
 void exec_line(Command *cmd)
 {
-	char *path, *path_copy, *arguments[2], *token, command_path[1024];
+	char *path, *path_copy, *arguments[3], *token, command_path[1024];
 
 	if (strchr(cmd->name, '/') == NULL)
 	{
@@ -18,9 +18,10 @@ void exec_line(Command *cmd)
 			token = strtok(path_copy, ":");
 			while (token != NULL)
 			{
-				snprintf(command_path, sizeof(command_path), "%s/%s -a", token, cmd->name);
+				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
 				arguments[0] = command_path;
-				arguments[1] = NULL;
+				arguments[1] = "-a";
+				arguments[2] = NULL;
 				execve(command_path, arguments, environ);
 				token = strtok(NULL, ":");
 			}
