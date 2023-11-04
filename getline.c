@@ -17,7 +17,7 @@ int readline(char *buffer, int *position, FILE *stream)
 		if (pos == 0)
 			fflush(stream);
 
-		rd = read(STDIN_FILENO, &c, 1);
+		rd = read(stream, &c, 1);
 		if (rd == -1 || (pos == 0 && rd == 0))
 		{
 			free(buffer);
