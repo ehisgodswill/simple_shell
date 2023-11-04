@@ -11,7 +11,8 @@
 int readline(char *buffer, int *position, FILE *stream)
 {
 	char c;
-	int rd, pos = *position, stream_no = (int)*stream;
+	int rd, pos = *position;
+	int stream_no = (int)*stream;
 
 	do{
 		if (pos == 0)
