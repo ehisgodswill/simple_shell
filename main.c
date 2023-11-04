@@ -12,7 +12,7 @@ int main(void)
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			printf("$ ");
+			write(STDOUT_FILENO, "$ ", 2);
 
 		input = (char *)malloc(bufsize * sizeof(char));
 		if (_getline(&input, &bufsize, stdin) == -1)
