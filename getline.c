@@ -11,7 +11,7 @@
 ssize_t readline(char *buffer, size_t *position, FILE *stream)
 {
 	char c;
-	ssize_t read = 0;
+	ssize_t nread = 0;
 	int rd;
 	size_t pos = *position;
 
@@ -30,7 +30,7 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 			buffer = realloc(buffer, pos + 1);
 		if (pos > 0 && (rd == 0 || rd == -1))
 		{
-			read++;
+			nread++;
 			pos++;
 			break;
 		}
@@ -40,7 +40,7 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 
 	buffer[pos] = '\0';
 	*position = pos;
-	return (read);
+	return (nread);
 }
 
 /**
