@@ -11,13 +11,13 @@
 int readline(char *buffer, int *position, FILE *stream)
 {
 	char c;
-	int rd, pos = *position;
+	int rd, pos = *position, stream_no = (int)*stream;
 
 	do{
 		if (pos == 0)
 			fflush(stream);
 
-		rd = read(STDIN_FILENO, &c, 1);
+		rd = read(stream_no, &c, 1);
 		if (rd == -1 || (pos == 0 && rd == 0))
 		{
 			free(buffer);
