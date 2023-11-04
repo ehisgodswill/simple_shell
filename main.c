@@ -15,7 +15,7 @@ int main(void)
 			printf("$ ");
 
 		input = (char *)malloc(bufsize * sizeof(char));
-		if (_getline(&input, &bufsize, stdin) == -1)
+		if (get_line(&input, &bufsize, stdin) == -1)
 		{
 			if (feof(stdin))
 			{
