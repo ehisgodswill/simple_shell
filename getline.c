@@ -13,11 +13,11 @@ int readline(char *buffer, int *position, FILE *stream)
 	char c;
 	int rd, pos = *position, stream_no;
 
-	if (*stream == stdin)
+	if (stream == stdin)
 		stream_no = STDIN_FILENO;
-	else if (*stream == stdout)
+	else if (stream == stdout)
 		stream_no = STDOUT_FILENO;
-	else if (*stream == stderr)
+	else if (stream == stderr)
 		stream_no = STDERR_FILENO;
 	else
 		return (-1);
