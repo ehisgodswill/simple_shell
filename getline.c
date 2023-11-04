@@ -8,25 +8,17 @@
  *
  * Return: -1 on failure
 */
-int readline(char *buffer, int *position, FILE *stream)
+int readline(char *buffer, size_t *position, FILE *stream)
 {
 	char c;
-	int rd, pos = *position, stream_no;
-
-	if (stream == stdin)
-		stream_no = STDIN_FILENO;
-	else if (stream == stdout)
-		stream_no = STDOUT_FILENO;
-	else if (stream == stderr)
-		stream_no = STDERR_FILENO;
-	else
-		return (-1);
+	int rd;
+	size_t pos = *position;
 
 	do{
 		if (pos == 0)
 			fflush(stream);
 
-		rd = read(stream_no, &c, 1);
+		rd = read(STDIN_FILENO, &c, 1);
 		if (rd == -1 || (pos == 0 && rd == 0))
 		{
 			free(buffer);
@@ -60,7 +52,8 @@ int readline(char *buffer, int *position, FILE *stream)
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	static char *buffer;
-	int position, rd;
+	int rd;
+	size_t position; 
 
 	buffer = malloc(sizeof(char) * BUFSIZ);
 	if (buffer == NULL)
@@ -73,7 +66,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 		return (-1);
 	}
 
-	if (*lineptr == NULL || position > (int)*n)
+	if (*lineptr == NULL || position > *n)
 	{
 		if (position > BUFSIZ)
 			*n = position;
