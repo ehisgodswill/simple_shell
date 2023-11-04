@@ -24,7 +24,7 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 		{
 			free(buffer);
 			*position = pos;
-			return (-1);
+			return (0);
 		}
 		if (pos >= BUFSIZ)
 			buffer = realloc(buffer, pos + 1);
