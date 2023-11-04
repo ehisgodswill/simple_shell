@@ -12,10 +12,10 @@ int main(void)
 	while (1)
 	{
 		/* if (isatty(STDIN_FILENO)) */
-			printf("$ ");
+		printf("$ ");
 
 		input = (char *)malloc(bufsize * sizeof(char));
-		if (_getline(&input, &bufsize, stdin) == -1)
+		if (getline(&input, &bufsize, stdin) == -1)
 		{
 			if (feof(stdin))
 			{
