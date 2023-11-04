@@ -7,7 +7,7 @@
  */
 void exec_line(Command *cmd)
 {
-	char *path, *path_copy, *arguments[2], *token, command_path[1024];
+	char *path, *path_copy, *token, command_path[1024];
 
 	if (_strchr(cmd->name, '/') == NULL)
 	{
@@ -19,9 +19,8 @@ void exec_line(Command *cmd)
 			while (token != NULL)
 			{
 				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
-				arguments[0] = command_path;
-				arguments[1] = NULL;
-				execve(command_path, arguments, environ);
+				cmd->arguments[0] = command_path;
+				execve(command_path, cmd->arguments, environ);
 				token = strtok(NULL, ":");
 			}
 			free(path_copy);
@@ -29,9 +28,8 @@ void exec_line(Command *cmd)
 	}
 	else
 	{
-		arguments[0] = cmd->name;
-		arguments[1] = NULL;
-		execve(cmd->name, arguments, environ);
+		cmd->arguments[0] = cmd->name;
+		execve(cmd->name, cmd->arguments, environ);
 	}
 }
 
