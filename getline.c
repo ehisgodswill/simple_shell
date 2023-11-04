@@ -5,20 +5,20 @@
  * @buffer: buffer to store line read
  * @position: position of buffer
  * @stream: file stream
- * 
+ *
  * Return: -1 on failure
 */
 int readline(char *buffer, int *position, FILE *stream)
 {
 	char c;
 	int rd, pos = *position;
-	do
-	{
+
+	do{
 		if (pos == 0)
 			fflush(stream);
 
 		rd = read(STDIN_FILENO, &c, 1);
-		if (rd == -1 || (pos== 0 && rd == 0))
+		if (rd == -1 || (pos == 0 && rd == 0))
 		{
 			free(buffer);
 			*position = pos;
@@ -61,7 +61,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	if (rd == -1)
 		return (-1);
 
-	if (*lineptr == NULL || position > *n)
+	if (*lineptr == NULL || position > (int)*n)
 	{
 		if (position > BUFSIZ)
 			*n = position;
