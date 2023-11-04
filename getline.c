@@ -22,7 +22,6 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 		rd = read(STDIN_FILENO, &c, 1);
 		if (rd == -1 || (pos == 0 && rd == 0))
 		{
-			free(buffer);
 			*position = pos;
 			return (-1);
 		}
@@ -63,7 +62,10 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	position = 0;
 	rd = readline(buffer, &position, stream);
 	if (rd == -1)
-		return (0);
+	{
+		free(buffer);
+		return (-1);
+	}
 
 	if (*lineptr == NULL || position > *n)
 	{
