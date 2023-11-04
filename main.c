@@ -23,7 +23,7 @@ int main(void)
 				exit(0);
 			}
 			free(input);
-			perror("getline");
+			/* perror("getline"); */
 			exit(1);
 		}
 		input[_strlen(input) - 1] = '\0';
