@@ -20,6 +20,7 @@ int main(void)
 				printf("\n");
 				exit(0);
 			}
+			free(input);
 			perror("fgets");
 			exit(1);
 		}
@@ -42,6 +43,7 @@ int main(void)
 				}
 			}
 			execute_command(&cmd);
+			free(input);
 		}
 	}
 	return (0);
