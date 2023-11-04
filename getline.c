@@ -61,10 +61,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	position = 0;
 	rd = readline(buffer, &position, stream);
 	if (rd == -1)
-	{
-		perror("readline");
 		return (-1);
-	}
 
 	if (*lineptr == NULL || position > *n)
 	{

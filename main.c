@@ -11,7 +11,7 @@ int main(void)
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
+		/* if (isatty(STDIN_FILENO)) */
 			printf("$ ");
 
 		input = (char *)malloc(bufsize * sizeof(char));
