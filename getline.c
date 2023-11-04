@@ -8,9 +8,10 @@
  *
  * Return: -1 on failure
 */
-int readline(char *buffer, size_t *position, FILE *stream)
+ssize_t readline(char *buffer, size_t *position, FILE *stream)
 {
 	char c;
+	ssize_t read = 0;
 	int rd;
 	size_t pos = *position;
 
@@ -29,6 +30,7 @@ int readline(char *buffer, size_t *position, FILE *stream)
 			buffer = realloc(buffer, pos + 1);
 		if (pos > 0 && (rd == 0 || rd == -1))
 		{
+			read++;
 			pos++;
 			break;
 		}
@@ -38,7 +40,7 @@ int readline(char *buffer, size_t *position, FILE *stream)
 
 	buffer[pos] = '\0';
 	*position = pos;
-	return (rd);
+	return (read);
 }
 
 /**
@@ -52,7 +54,7 @@ int readline(char *buffer, size_t *position, FILE *stream)
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	static char *buffer;
-	int rd;
+	ssize_t rd;
 	size_t position; 
 
 	buffer = malloc(sizeof(char) * BUFSIZ);
@@ -61,7 +63,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	position = 0;
 	rd = readline(buffer, &position, stream);
 	if (rd == -1)
-		return (-1);
+		return (rd);
 
 	if (*lineptr == NULL || position > *n)
 	{

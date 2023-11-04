@@ -11,11 +11,11 @@ int main(void)
 
 	while (1)
 	{
-		/* if (isatty(STDIN_FILENO)) */
-		printf("$ ");
+		if (isatty(STDIN_FILENO))
+			printf("$ ");
 
 		input = (char *)malloc(bufsize * sizeof(char));
-		if (getline(&input, &bufsize, stdin) == -1)
+		if (_getline(&input, &bufsize, stdin) == -1)
 		{
 			if (feof(stdin))
 			{
@@ -23,7 +23,7 @@ int main(void)
 				exit(0);
 			}
 			free(input);
-			perror("_getline");
+			perror("getline");
 			exit(1);
 		}
 		input[_strlen(input) - 1] = '\0';
