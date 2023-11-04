@@ -1,5 +1,7 @@
 #include "shell.h"
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 /**
  * readline - reads a line
  * @buffer: buffer to store line read
@@ -13,7 +15,7 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 	char c;
 	ssize_t nread = 0;
 	size_t pos = *position;
-	int fd = open(stream, _A_RDONLY);
+	int fd = open(stream, O_RDONLY);
     
     if(fd == -1){
         printf("\nError Opening File!!\n");
@@ -28,7 +30,7 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 		{
 			free(buffer);
 			*position = pos;
-			fclose(fd);
+			close(fd);
 			return (-1);
 		}
 		if (pos >= BUFSIZ)
@@ -45,6 +47,7 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 
 	buffer[pos] = '\0';
 	*position = pos;
+	close(fd);
 	return (nread);
 }
 
