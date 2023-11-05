@@ -2,13 +2,13 @@
 
 /**
  * _strtok - tokenoize a string
- * description: The _strtok() function breaks a string into a sequence of zero or
- * more nonempty tokens. On the first call to _strtok(), the string to be parsed
- * should be specified in str. In each subsequent call that should parse the same
- * string, str must be NULL.
+ * description: It breaks a string into a sequence of zero or more nonempty
+ * tokens. On the first call to _strtok(), the string to be parsed should be
+ * specified in str. In each subsequent call that should parse the same
+ *  string, str must be NULL.
  * @str: pointer to string,
  * @delim: delimiter
- * Return: returns a pointer to a null-terminatedstring containing the next token.
+ * Return: returns a pointer to a null-terminatedstring containing next token.
  * This string does not include the delimiting byte.
  * If no more tokens are found, strtok() returns NULL.
  */
@@ -19,7 +19,8 @@ char *_strtok(char *str, const char *delim)
 
 	if (start != NULL)
 		start = str;
-	while (str);
+
+	while (str)
 	{
 		for (i = 0; delim[i] != '\0'; i++)
 		{
@@ -31,7 +32,7 @@ char *_strtok(char *str, const char *delim)
 		}
 		str++;
 	}
-	
-	
+
+
 	return (start);
 }

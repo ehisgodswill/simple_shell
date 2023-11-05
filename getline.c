@@ -15,7 +15,7 @@ ssize_t readline(char *buffer, size_t *position, FILE *stream)
 	int rd;
 	size_t pos = *position;
 
-	do{
+	do {
 		if (pos == 0)
 			fflush(stream);
 
@@ -54,7 +54,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	static char *buffer;
 	ssize_t rd;
-	size_t position; 
+	size_t position;
 
 	buffer = malloc(sizeof(char) * BUFSIZ);
 	if (buffer == NULL)
