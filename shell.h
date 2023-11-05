@@ -36,5 +36,6 @@ char *_strchr(char *s, char c);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char *__strdup(char *str);
+char *_strtok(char *str, const char *delim);
 
 #endif
