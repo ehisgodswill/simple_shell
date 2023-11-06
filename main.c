@@ -8,6 +8,7 @@ int main(void)
 	char *input;
 	size_t bufsize = 1024;
 	Command cmd;
+	/*int exit_status = 0;*/
 
 	while (1)
 	{
@@ -37,7 +38,12 @@ int main(void)
 			if (cmd.name != NULL)
 			{
 				if (_strcmp(cmd.name, "exit") == 0)
-					exit(0);
+				{
+					int exit_status = 0;
+					if (cmd.arguments[1] != NULL)
+						exit_status = atoi(cmd.arguments[1]);
+					exit(exit_status);
+				}
 				else if (_strcmp(cmd.name, "env") == 0)
 				{
 					print_environment();

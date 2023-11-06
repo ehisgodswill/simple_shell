@@ -27,7 +27,7 @@ char *_strtok(char *str, const char *delim)
 	else
 		start = next;
 	if (delim == NULL)
-		return NULL;
+		return (NULL);
 	b = 0;
 	for (j = 0; start[j]; j++)
 	{
