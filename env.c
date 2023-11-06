@@ -26,8 +26,8 @@ void set_environment(Command *cmd)
 
 	cmd->name = "export";
 	cmd->arguments[1] = arg;
-	cmd->arguments[2] = NULL;
-	/* execute_command(cmd); */
+	/*cmd->arguments[2] = NULL;
+	 execute_command(cmd); */
 	printf("%s %s %s %s", cmd->name, cmd->arguments[1], cmd->arguments[2], arg);
 }
 
