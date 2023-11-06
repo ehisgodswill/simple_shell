@@ -20,13 +20,14 @@ void print_environment(void)
 */
 void set_environment(Command *cmd)
 {
-	char *arg = _strcat(cmd->arguments[1], cmd->arguments[2]);
+	char *arg = _strcat(cmd->arguments[1],"=");
+	arg = _strcat(arg, cmd->arguments[2]);
 
 	cmd->name = "export";
 	cmd->arguments[1] = arg;
 	cmd->arguments[2] = NULL;
 	printf("%s %s %s", cmd->name, cmd->arguments[1], cmd->arguments[2]);
-	execute_command(cmd);
+	/* execute_command(cmd); */
 }
 
 /**
@@ -36,5 +37,5 @@ void set_environment(Command *cmd)
 void unset_environment(Command *cmd)
 {
 	cmd->name = "unset";
-	execute_command(cmd);
+	/* execute_command(cmd); */
 }
