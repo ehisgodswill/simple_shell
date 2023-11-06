@@ -13,3 +13,27 @@ void print_environment(void)
 		env++;
 	}
 }
+
+/**
+ * set_environment - sets an environment variable
+ * cmd - command structure
+*/
+void set_environment(Command *cmd)
+{
+	char *arg = _strcat(cmd->arguments[1], cmd->arguments[2]);
+
+	cmd->name = "export";
+	cmd->arguments[1] = *arg;
+	cmd->arguments[2] = NULL;
+	execute_command(cmd);
+}
+
+/**
+ * unset_environment - sets an environment variable
+ * cmd - command structure
+*/
+void unset_environment(Command *cmd)
+{
+	cmd->name = "unset";
+	execute_command(cmd);
+}

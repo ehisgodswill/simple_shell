@@ -43,6 +43,16 @@ int main(void)
 					print_environment();
 					continue;
 				}
+				else if (_strcmp(cmd.name, "setenv") == 0)
+				{
+					set_environment(&cmd);
+					continue;
+				}
+				else if (_strcmp(cmd.name, "unsetenv") == 0)
+				{
+					unset_environment(&cmd);
+					continue;
+				}
 			}
 			execute_command(&cmd);
 			free(input);
