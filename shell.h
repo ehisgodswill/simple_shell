@@ -29,8 +29,9 @@ void tokenize_input(char *input, Command *cmd);
 void execute_command(Command *cmd);
 void print_environment(void);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-void set_environment(Command cmd);
-void unset_environment(Command cmd);
+void set_environment(Command *cmd);
+void unset_environment(Command *cmd);
+
 /* helper functions */
 
 char *_strchr(char *s, char c);
