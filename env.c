@@ -32,7 +32,7 @@ void set_environment(Command *cmd)
 	printf("%s %s %s %s", cmd->name, cmd->arguments[1], cmd->arguments[2], arg);*/
 	for (i = 1; cmd->arguments[i]; i++)
 	{
-		printf("'%s'\t", cmd->arguments[i]);
+		printf("'%s' %d\t", cmd->arguments[i], i);
 	}
 	
 }
