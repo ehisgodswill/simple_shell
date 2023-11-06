@@ -21,7 +21,6 @@ void print_environment(void)
 void set_environment(Command *cmd)
 {
 	char *arg;
-
 	arg = _strcat(cmd->arguments[1],"=");
 	arg = _strcat(arg, cmd->arguments[2]);
 
