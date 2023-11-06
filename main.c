@@ -5,25 +5,28 @@
  */
 int main(void)
 {
-	char input[1024];
+	char *input;
+	size_t bufsize = 1024;
 	Command cmd;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			printf("$ ");
+			write(STDOUT_FILENO, "$ ", 2);
 
-		if (fgets(input, sizeof(input), stdin) == NULL)
+		input = (char *)malloc(bufsize * sizeof(char));
+		if (_getline(&input, &bufsize, stdin) == -1)
 		{
 			if (feof(stdin))
 			{
 				/* printf("\n"); */
 				exit(0);
 			}
-			perror("fgets");
+			free(input);
+			/* perror("getline"); */
 			exit(1);
 		}
-		input[strlen(input) - 1] = '\0';
+		input[_strlen(input) - 1] = '\0';
 
 		if (input[0] != '\0')
 		{
@@ -33,15 +36,16 @@ int main(void)
 			tokenize_input(input, &cmd);
 			if (cmd.name != NULL)
 			{
-				if (strcmp(cmd.name, "exit") == 0)
+				if (_strcmp(cmd.name, "exit") == 0)
 					exit(0);
-				else if (strcmp(cmd.name, "env") == 0)
+				else if (_strcmp(cmd.name, "env") == 0)
 				{
 					print_environment();
 					continue;
 				}
 			}
 			execute_command(&cmd);
+			free(input);
 		}
 	}
 	return (0);
