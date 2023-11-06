@@ -21,19 +21,15 @@ void print_environment(void)
 void set_environment(Command *cmd)
 {
 	int i = 0;
-	/*arg = _strcat(cmd->arguments[1],"=");
 	char *arg;
-	arg = _strcat(arg, cmd->arguments[2]);
+
+	arg = sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
 
 	cmd->name = "export";
 	cmd->arguments[1] = arg;
-	cmd->arguments[2] = NULL;
-	 execute_command(cmd); 
-	printf("%s %s %s %s", cmd->name, cmd->arguments[1], cmd->arguments[2], arg);*/
-	for (i = 1; cmd->arguments[i]; i++)
-	{
-		printf("'%s' %d\t", cmd->arguments[i], i);
-	}
+	cmd->arguments[2] = '\0';
+	 /*execute_command(cmd); */
+	printf("%s %s %s %s", cmd->name, cmd->arguments[1], cmd->arguments[2], arg);
 	
 }
 
