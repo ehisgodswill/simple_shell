@@ -14,25 +14,41 @@
  */
 char *_strtok(char *str, const char *delim)
 {
-	static char *start;
-	int i;
+	static char *end, *next;
+	char *start;
+	int i, j, b;
 
-	if (start != NULL)
-		start = str;
-
-	while (str)
+	if (str != NULL)
 	{
-		for (i = 0; delim[i] != '\0'; i++)
-		{
-			if (*str == delim[i])
-			{
-				*str = '\0';
-				start = str;
-			}
-		}
-		str++;
+		start = str;
+		end = &str[strlen(str)];
+		next = start;
 	}
-
-
+	else
+		start = next;
+	if (delim == NULL)
+		return NULL;
+	b = 0;
+	for (j = 0; start[j]; j++)
+	{
+		for (i = 0; delim[i]; i++)
+			if (start[j] == delim[i])
+			{
+				start[j] = '\0';
+				if (strlen(start) == 0)
+				{
+					start++;
+					continue;
+				}
+				next = &start[j + 1];
+				b = 1;
+			}
+		if (&start[j] >= end - 1)
+			next = end;
+		if (b == 1)
+			break;
+	}
+	if ((end - start) <= 0)
+		return (NULL);
 	return (start);
 }

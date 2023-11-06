@@ -9,19 +9,19 @@ void exec_line(Command *cmd)
 {
 	char *path, *path_copy, *token, command_path[1024];
 
-	if (strchr(cmd->name, '/') == NULL)
+	if (_strchr(cmd->name, '/') == NULL)
 	{
 		path = getenv("PATH");
 		if (path != NULL)
 		{
 			path_copy = strdup(path);
-			token = strtok(path_copy, ":");
+			token = _strtok(path_copy, ":");
 			while (token != NULL)
 			{
 				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
 				cmd->arguments[0] = command_path;
 				execve(command_path, cmd->arguments, environ);
-				token = strtok(NULL, ":");
+				token = _strtok(NULL, ":");
 			}
 			free(path_copy);
 		}
