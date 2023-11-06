@@ -20,10 +20,9 @@ void print_environment(void)
 */
 void set_environment(Command *cmd)
 {
-	int i = 0;
 	char *arg;
 
-	arg = sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
+	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
 
 	cmd->name = "export";
 	cmd->arguments[1] = arg;
