@@ -20,7 +20,7 @@ void print_environment(void)
 */
 void set_environment(Command *cmd)
 {
-	int l = strlen(cmd->arguments[1]) + strlen(cmd->arguments[2])
+	int l = strlen(cmd->arguments[1]) + strlen(cmd->arguments[2]);
 	char arg[l+1];
 
 	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
