@@ -20,21 +20,27 @@ void print_environment(void)
 */
 void set_environment(Command *cmd)
 {
-	char arg[BUFSIZ], *a, *b;
-	char **env = environ; 
-	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
+	char arg[BUFSIZ], *line, *a;
+	char **env = environ;
+	int t = 0, found = 0;
 
-	a = _strtok(*env, "=");
-	b = _strtok(NULL, "=");
-	printf("%s\n%s\n%s\n%s\n", a, b, *env, arg);
-	
-	/*cmd->name = "export";
+	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
 	while (*env)
 	{
+		line = strdup(*env);
+		a = strtok(line, "=");
+		if (strcmp(a, cmd->arguments[1]) == 0)
+		{
+			*env = arg;
+			found++;
+			break;
+		}
+		t++;
+		env++;
 	}
-	cmd->arguments[1] = arg;
-	cmd->arguments[2] = '\0';*/
-	
+	free(line);
+	if (found <= 0)
+		*env = arg;
 }
 
 /**
