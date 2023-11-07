@@ -12,6 +12,7 @@ extern char **environ;
  * struct command - command structure
  * @name: name of the command
  * @arguments: array of argument vector
+ * @argcount: number of arguments
  * @input_file: input fd
  * @output_file: output fd
  *

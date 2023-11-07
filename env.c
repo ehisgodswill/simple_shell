@@ -16,7 +16,7 @@ void print_environment(void)
 
 /**
  * set_environment - sets an environment variable
- * cmd - command structure
+ * @cmd: command structure
  */
 void set_environment(Command *cmd)
 {
@@ -58,7 +58,7 @@ void set_environment(Command *cmd)
 
 /**
  * unset_environment - sets an environment variable
- * cmd - command structure
+ * @cmd: command structure
  */
 void unset_environment(Command *cmd)
 {
