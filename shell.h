@@ -21,6 +21,7 @@ typedef struct command
 {
 	char *name;
 	char *arguments[20];
+	int argcount;
 	int input_file;
 	int output_file;
 } Command;
