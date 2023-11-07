@@ -26,8 +26,8 @@ void set_environment(Command *cmd)
 
 	while (*env)
 	{
-		*a = _strtok(*env, "=");
-		*b = _strtok(NULL, "=")''
+		a = _strtok(*env, "=");
+		b = _strtok(NULL, "=");
 	}
 	
 	/*cmd->name = "export";
