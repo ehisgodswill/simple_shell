@@ -3,7 +3,7 @@
  * getfunction - finds the function needed
  * @cmd: command structure
  */
-void getfunction(Command *cmd)
+int getfunction(Command *cmd)
 {
 	if (cmd->name != NULL)
 	{
@@ -12,19 +12,20 @@ void getfunction(Command *cmd)
 		else if (_strcmp(cmd->name, "env") == 0)
 		{
 			print_environment();
-			continue;
+			return (1);
 		}
 		else if (_strcmp(cmd->name, "setenv") == 0)
 		{
 			set_environment(cmd);
-			continue;
+			return (1);
 		}
 		else if (_strcmp(cmd->name, "unsetenv") == 0)
 		{
 			unset_environment(cmd);
-			continue;
+			return (1);
 		}
 	}
+	return(0);
 }
 /**
  * main - main logic
@@ -61,7 +62,8 @@ int main(void)
 			cmd.output_file = STDOUT_FILENO;
 
 			tokenize_input(input, &cmd);
-			getfunction(&cmd);
+			if (getfunction(&cmd))
+				continue;
 			execute_command(&cmd);
 			free(input);
 		}
