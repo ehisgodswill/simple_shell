@@ -24,16 +24,16 @@ void set_environment(Command *cmd)
 	char **env = environ; 
 	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
 
-	while (*env)
-	{
-		a = _strtok(*env, "=");
-		b = _strtok(NULL, "=");
-	}
+	a = _strtok(*env, "=");
+	b = _strtok(NULL, "=");
+	printf("%s\n%s\n%s\n%s\n", a, b, *env, arg);
 	
 	/*cmd->name = "export";
+	while (*env)
+	{
+	}
 	cmd->arguments[1] = arg;
 	cmd->arguments[2] = '\0';*/
-	printf("%s\n%s\n%s\n%s\n", a, b, *env, arg);
 	
 }
 
