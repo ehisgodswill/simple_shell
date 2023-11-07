@@ -26,7 +26,7 @@ void set_environment(Command *cmd)
 
 	if (cmd->argcount != 3)
 	{
-		write(STDERR_FILENO, "Number of arguments not correct", 32);
+		write(STDERR_FILENO, "Number of arguments not correct\n", 32);
 		return;
 	}
 	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
@@ -35,7 +35,7 @@ void set_environment(Command *cmd)
 		line = __strdup(*env);
 		if (line == NULL || cmd->argcount != 3)
 		{
-			write(STDERR_FILENO, "setenv failed", 14);
+			write(STDERR_FILENO, "setenv failed\n", 14);
 			return;
 		}
 		a = _strtok(line, "=");
@@ -68,7 +68,7 @@ void unset_environment(Command *cmd)
 
 	if (cmd->argcount != 2)
 	{
-		write(STDERR_FILENO, "Number of arguments not correct", 32);
+		write(STDERR_FILENO, "Number of arguments not correct\n", 32);
 		return;
 	}
 	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
@@ -77,7 +77,7 @@ void unset_environment(Command *cmd)
 		line = __strdup(*env);
 		if (line == NULL)
 		{
-			write(STDERR_FILENO, "unsetenv failed", 14);
+			write(STDERR_FILENO, "unsetenv failed\n", 14);
 			return;
 		}
 		a = _strtok(line, "=");
