@@ -5,23 +5,23 @@
  */
 void getfunction(Command *cmd)
 {
-	if (cmd.name != NULL)
+	if (cmd->name != NULL)
 	{
-		if (_strcmp(cmd.name, "exit") == 0)
+		if (_strcmp(cmd->name, "exit") == 0)
 			exit(0);
-		else if (_strcmp(cmd.name, "env") == 0)
+		else if (_strcmp(cmd->name, "env") == 0)
 		{
 			print_environment();
 			continue;
 		}
-		else if (_strcmp(cmd.name, "setenv") == 0)
+		else if (_strcmp(cmd->name, "setenv") == 0)
 		{
-			set_environment(&cmd);
+			set_environment(cmd);
 			continue;
 		}
-		else if (_strcmp(cmd.name, "unsetenv") == 0)
+		else if (_strcmp(cmd->name, "unsetenv") == 0)
 		{
-			unset_environment(&cmd);
+			unset_environment(cmd);
 			continue;
 		}
 	}
