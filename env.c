@@ -33,7 +33,7 @@ void set_environment(Command *cmd)
 	/*cmd->name = "export";
 	cmd->arguments[1] = arg;
 	cmd->arguments[2] = '\0';*/
-	printf("%s\n%s\n%s\n%s\n", a, b, env, arg);
+	printf("%s\n%s\n%s\n%s\n", a, b, *env, arg);
 	
 }
 
