@@ -28,6 +28,11 @@ void set_environment(Command *cmd)
 	while (*env)
 	{
 		line = strdup(*env);
+		if (line == NULL)
+		{
+			write(STDERR_FILENO, "setenv failed", 14);
+			return;
+		}
 		a = strtok(line, "=");
 		if (strcmp(a, cmd->arguments[1]) == 0)
 		{
@@ -40,7 +45,10 @@ void set_environment(Command *cmd)
 	}
 	free(line);
 	if (found <= 0)
+	{
 		*env = arg;
+		*++env = NULL;
+	}
 }
 
 /**
