@@ -20,15 +20,20 @@ void print_environment(void)
 */
 void set_environment(Command *cmd)
 {
-	char arg[BUFSIZ];
-
+	char arg[BUFSIZ], *a, *b;
+	char **env = environ; 
 	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
 
-	cmd->name = "export";
+	while (*env)
+	{
+		*a = _strtok(*env, "=");
+		*b = _strtok(NULL, "=")''
+	}
+	
+	/*cmd->name = "export";
 	cmd->arguments[1] = arg;
-	cmd->arguments[2] = '\0';
-	 execute_command(cmd);
-	/*printf("%s %s %s %s", cmd->name, cmd->arguments[1], cmd->arguments[2], arg);*/
+	cmd->arguments[2] = '\0';*/
+	printf("%s\n%s\n%s\n%s\n", a, b, env, arg);
 	
 }
 
