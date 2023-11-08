@@ -71,7 +71,6 @@ void shell_loop(char *input)
 			execute_command(&cmd);
 		}
 		i++;
-		token[i] = _strtok(NULL, ";");
 	}
 }
 

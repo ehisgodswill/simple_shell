@@ -21,6 +21,7 @@ void tokenize_input(Command *cmd)
 	while  ((token = _strtok(NULL, " \n\t")) != NULL && i < 19)
 	{
 		cmd->arguments[i] = token;
+		printf("%s %d\n", cmd.name, cmd.argcount);
 		i++;
 	}
 	cmd->arguments[i] = NULL;
