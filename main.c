@@ -61,7 +61,7 @@ void shell_loop(char *input)
 			cmd.output_file = STDOUT_FILENO;
 
 			tokenize_input(&cmd);
-			printf("%s %s\n", cmd.name, cmd.argcount);
+			printf("%s %d\n", cmd.name, cmd.argcount);
 			if (getfunction(&cmd))
 			{
 				i++;
