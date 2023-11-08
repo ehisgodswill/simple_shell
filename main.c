@@ -46,7 +46,7 @@ void shell_loop(char *input)
 	Command cmd;
 	int i = 0;
 
-	token = _strtok(input, ";");
+	token[i] = _strtok(input, ";");
 	while (token[i] != NULL)
 	{
 		i++;
@@ -55,7 +55,7 @@ void shell_loop(char *input)
 	i = 0;
 	while (token[i] != NULL)
 	{
-		if (token[i] != '\0')
+		if (*token[i] != '\0')
 		{
 			cmd.input_file = STDIN_FILENO;
 			cmd.output_file = STDOUT_FILENO;
