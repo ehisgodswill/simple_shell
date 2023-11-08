@@ -57,7 +57,10 @@ void shell_loop(char *input)
 
 			tokenize_input(token, &cmd);
 			if (getfunction(&cmd))
+			{
+				token = _strtok(NULL, ";");
 				continue;
+			}
 			execute_command(&cmd);
 		}
 		token = _strtok(NULL, ";");
