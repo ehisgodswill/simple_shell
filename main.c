@@ -2,6 +2,7 @@
 /**
  * getfunction - finds the function needed
  * @cmd: command structure
+ * Return: 1 success
  */
 int getfunction(Command *cmd)
 {
@@ -14,6 +15,7 @@ int getfunction(Command *cmd)
 		else if (_strcmp(cmd->name, "exit") == 0)
 		{
 			int exit_status = 0;
+
 			if (cmd->arguments[1] != NULL)
 				exit_status = atoi(cmd->arguments[1]);
 			exit(exit_status);
@@ -34,7 +36,7 @@ int getfunction(Command *cmd)
 			return (1);
 		}
 	}
-	return(0);
+	return (0);
 }
 /**
  * main - main logic
