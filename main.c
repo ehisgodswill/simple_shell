@@ -53,7 +53,8 @@ void shell_loop(char *input)
 			cmd.input_file = STDIN_FILENO;
 			cmd.output_file = STDOUT_FILENO;
 
-			tokenize_input(token, &cmd);
+			str = token;
+			tokenize_input(str, &cmd);
 			printf("%s\n" ,token);
 			token = _strtok(NULL, ";");
 			continue;
