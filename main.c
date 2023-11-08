@@ -31,7 +31,7 @@ int main(void)
 		input[_strlen(input) - 1] = '\0';
 		shell_loop(input);
 		free(input);
-		
+
 	}
 	return (0);
 }
@@ -50,7 +50,7 @@ void shell_loop(char *input)
 	while (token[i] != NULL)
 	{
 		i++;
-		token[i] = strtok(NULL, ";");
+		token[i] = _strtok(NULL, ";");
 	}
 	i = 0;
 	while (token[i] != NULL)
@@ -101,5 +101,5 @@ int getfunction(Command *cmd)
 			return (1);
 		}
 	}
-	return(0);
+	return (0);
 }

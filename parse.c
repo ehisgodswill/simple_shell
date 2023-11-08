@@ -6,7 +6,7 @@
  * their arguments
  * @cmd: pointer to the command
  */
-void tokenize_input( Command *cmd)
+void tokenize_input(Command *cmd)
 {
 	int i = 1;
 	char *token = strtok(cmd->input, " \n\t");
