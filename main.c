@@ -36,6 +36,7 @@ int main(void)
 	char *input;
 	size_t bufsize = 1024;
 	Command cmd;
+	/*int exit_status = 0;*/
 
 	while (1)
 	{
