@@ -35,7 +35,6 @@ int main(void)
 {
 	char *input;
 	size_t bufsize = 1024;
-	Command cmd;
 
 	while (1)
 	{
@@ -45,28 +44,41 @@ int main(void)
 		input = (char *)malloc(bufsize * sizeof(char));
 		if (_getline(&input, &bufsize, stdin) == -1)
 		{
+			free(input);
 			if (feof(stdin))
 			{
 				/* printf("\n"); */
 				exit(0);
 			}
-			free(input);
 			/* perror("getline"); */
 			exit(1);
 		}
 		input[_strlen(input) - 1] = '\0';
+		shell_loop(input);
+		free(input);
+		
+	}
+	return (0);
+}
 
-		if (input[0] != '\0')
+void shell_loop(char *input)
+{
+	char *token, str = input;
+	Command cmd;
+
+	token = _strtok(str, ";");
+	while (token != NULL)
+	{
+		if (token[0] != '\0')
 		{
 			cmd.input_file = STDIN_FILENO;
 			cmd.output_file = STDOUT_FILENO;
 
-			tokenize_input(input, &cmd);
+			tokenize_input(token, &cmd);
 			if (getfunction(&cmd))
 				continue;
 			execute_command(&cmd);
-			free(input);
 		}
+		token = _strtok(NULL, ";");
 	}
-	return (0);
 }

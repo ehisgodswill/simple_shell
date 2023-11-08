@@ -77,7 +77,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	}
 	else
 	{
-		strcpy(*lineptr, buffer);
+		_strcpy(*lineptr, buffer);
 		free(buffer);
 	}
 	return (position);
