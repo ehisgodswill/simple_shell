@@ -7,7 +7,11 @@ int getfunction(Command *cmd)
 {
 	if (cmd->name != NULL)
 	{
-		if (_strcmp(cmd->name, "exit") == 0)
+		if (_strcmp(cmd->name, "cd") == 0)
+		{
+			cd_command(cmd);
+		}
+		else if (_strcmp(cmd->name, "exit") == 0)
 		{
 			int exit_status = 0;
 			if (cmd->arguments[1] != NULL)

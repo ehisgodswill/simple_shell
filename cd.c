@@ -4,9 +4,10 @@
  * as cd $HOME, handles cd - and updates the PWD
  * @cmd: pointer
  */
-void cd_command(Command cmd)
+void cd_command(Command *cmd)
 {
 	char *target_dir = NULL;
+	char *current_dir = getcwd(NULL, 0);
 
 	if (cmd->arguments[1] == NULL)
 		target_dir = getenv("HOME");
@@ -20,14 +21,12 @@ void cd_command(Command cmd)
 		}
 	}
 	else
-		taget_dir = cmd->arguments[1];
+		target_dir = cmd->arguments[1];
 	if (chdir(target_dir) != 0)
 	{
 		perror("cd");
 		return;
 	}
-	char *current_dir = getcwd(NULL, 0);
-
 	if (current_dir == NULL)
 	{
 		perror("cd");

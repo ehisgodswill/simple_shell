@@ -33,6 +33,7 @@ void print_environment(void);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 void set_environment(Command *cmd);
 void unset_environment(Command *cmd);
+void cd_command(Command *cmd);
 
 /* helper functions */
 
