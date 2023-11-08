@@ -1,6 +1,8 @@
 #include "shell.h"
+
 void shell_loop(char *input);
 int getfunction(Command *cmd);
+
 /**
  * main - main logic
  * Return: 0 success
