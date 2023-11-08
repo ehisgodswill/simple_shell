@@ -9,8 +9,8 @@
  */
 void tokenize_input(char *input, Command *cmd)
 {
-	int i = 0;
-	char *token = strtok(input, " ");
+	int i = 1;
+	char *token = _strtok(input, " \n\t");
 
 	if (token == NULL)
 	{
@@ -19,10 +19,11 @@ void tokenize_input(char *input, Command *cmd)
 	}
 	cmd->name = token;
 
-	while  ((token = strtok(NULL, " ")) != NULL && i < 19)
+	while  ((token = _strtok(NULL, " \n\t")) != NULL && i < 19)
 	{
 		cmd->arguments[i] = token;
 		i++;
 	}
 	cmd->arguments[i] = NULL;
+	cmd->argcount = i;
 }
