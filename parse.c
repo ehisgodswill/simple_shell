@@ -9,7 +9,7 @@
 void tokenize_input(Command *cmd)
 {
 	int i = 1;
-	char *token = strtok(cmd->input, " \n\t");
+	char *token = _strtok(cmd->input, " \n\t");
 
 	if (token == NULL)
 	{
