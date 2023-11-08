@@ -1,32 +1,6 @@
 #include "shell.h"
-/**
- * getfunction - finds the function needed
- * @cmd: command structure
- */
-int getfunction(Command *cmd)
-{
-	if (cmd->name != NULL)
-	{
-		if (_strcmp(cmd->name, "exit") == 0)
-			exit(0);
-		else if (_strcmp(cmd->name, "env") == 0)
-		{
-			print_environment();
-			return (1);
-		}
-		else if (_strcmp(cmd->name, "setenv") == 0)
-		{
-			set_environment(cmd);
-			return (1);
-		}
-		else if (_strcmp(cmd->name, "unsetenv") == 0)
-		{
-			unset_environment(cmd);
-			return (1);
-		}
-	}
-	return(0);
-}
+void shell_loop(char *input);
+int getfunction(Command *cmd);
 /**
  * main - main logic
  * Return: 0 success
@@ -62,9 +36,13 @@ int main(void)
 	return (0);
 }
 
+/**
+ * shell_loop - seperate line by ';' and loops
+ * @input: line
+ */
 void shell_loop(char *input)
 {
-	char *token, str = input;
+	char *token, *str = input;
 	Command cmd;
 
 	token = _strtok(str, ";");
@@ -82,4 +60,33 @@ void shell_loop(char *input)
 		}
 		token = _strtok(NULL, ";");
 	}
+}
+
+/**
+ * getfunction - finds the function needed
+ * @cmd: command structure
+ */
+int getfunction(Command *cmd)
+{
+	if (cmd->name != NULL)
+	{
+		if (_strcmp(cmd->name, "exit") == 0)
+			exit(0);
+		else if (_strcmp(cmd->name, "env") == 0)
+		{
+			print_environment();
+			return (1);
+		}
+		else if (_strcmp(cmd->name, "setenv") == 0)
+		{
+			set_environment(cmd);
+			return (1);
+		}
+		else if (_strcmp(cmd->name, "unsetenv") == 0)
+		{
+			unset_environment(cmd);
+			return (1);
+		}
+	}
+	return(0);
 }
