@@ -4,13 +4,12 @@
 /**
  * tokenize_input - splits user input into commands and their
  * their arguments
- * @input: pointer input
  * @cmd: pointer to the command
  */
-void tokenize_input(char *input, Command *cmd)
+void tokenize_input( Command *cmd)
 {
 	int i = 1;
-	char *token = _strtok(input, " \n\t");
+	char *token = strtok(cmd->input, " \n\t");
 
 	if (token == NULL)
 	{

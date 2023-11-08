@@ -42,30 +42,35 @@ int main(void)
  */
 void shell_loop(char *input)
 {
-	char *token, *str = input;
+	char *token[64];
 	Command cmd;
+	int i = 0;
 
-	token = _strtok(str, ";");
-	while (token != NULL)
+	token = _strtok(input, ";");
+	while (token[i] != NULL)
 	{
-		if (token[0] != '\0')
+		i++;
+		token[i] = strtok(NULL, ";");
+	}
+	i = 0;
+	while (token[i] != NULL)
+	{
+		if (token[i] != '\0')
 		{
 			cmd.input_file = STDIN_FILENO;
 			cmd.output_file = STDOUT_FILENO;
 
-			str = token;
-			tokenize_input(str, &cmd);
-			printf("%s\n" ,token);
-			token = _strtok(NULL, ";");
-			continue;
+			tokenize_input(&cmd);
 			if (getfunction(&cmd))
 			{
-				token = _strtok(NULL, ";");
+				i++;
+				token[i] = _strtok(NULL, ";");
 				continue;
 			}
 			execute_command(&cmd);
 		}
-		token = _strtok(NULL, ";");
+		i++;
+		token[i] = _strtok(NULL, ";");
 	}
 }
 

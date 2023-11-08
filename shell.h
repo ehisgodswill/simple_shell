@@ -13,6 +13,7 @@ extern char **environ;
  * @name: name of the command
  * @arguments: array of argument vector
  * @argcount: number of arguments
+ * @input: input
  * @input_file: input fd
  * @output_file: output fd
  *
@@ -22,12 +23,13 @@ typedef struct command
 {
 	char *name;
 	char *arguments[20];
+	char *input;
 	int argcount;
 	int input_file;
 	int output_file;
 } Command;
 
-void tokenize_input(char *input, Command *cmd);
+void tokenize_input(Command *cmd);
 void execute_command(Command *cmd);
 void print_environment(void);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
