@@ -50,6 +50,8 @@ void shell_loop(char *input)
 	{
 		if (token[0] != '\0')
 		{
+			printf("%s\n" ,token);
+			continue;
 			cmd.input_file = STDIN_FILENO;
 			cmd.output_file = STDOUT_FILENO;
 
