@@ -23,7 +23,7 @@ int exec_line(Command *cmd)
 				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
 				cmd->arguments[0] = command_path;
 				ret = execve(command_path, cmd->arguments, environ);
-				printf("*ret:%d*", ret);
+				perror("*ret:%d*", ret);
 				token = _strtok(NULL, ":");
 			}
 			free(path_copy);
