@@ -70,8 +70,8 @@ int execute_command(Command *cmd)
 	else
 	{
 		wait(NULL);
+	printf("*ret:%d*", ret);
 		ret = -1;
 	}
-	printf("*ret:%d*", ret);
 	return ret;
 }
