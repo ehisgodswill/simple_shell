@@ -59,6 +59,7 @@ void shell_loop(char *input)
 			cmd.input = array[i].input;
 
 			r = run_function(&cmd);
+			printf("%d", r);
 			if (r == -1 && array[i].type == 2)
 			{
 				while (array[i].type != 0)
@@ -68,7 +69,6 @@ void shell_loop(char *input)
 			{
 				while (array[i].type != 0)
 					i++;
-				
 			}
 		}
 		i++;
