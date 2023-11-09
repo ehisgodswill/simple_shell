@@ -4,7 +4,7 @@
  * as cd $HOME, handles cd - and updates the PWD
  * @cmd: pointer
  */
-void cd_command(Command *cmd)
+int cd_command(Command *cmd)
 {
 	char *target_dir = NULL;
 	char *current_dir = getcwd(NULL, 0);
@@ -17,7 +17,7 @@ void cd_command(Command *cmd)
 		if (target_dir == NULL)
 		{
 			fprintf(stderr, "cd: OLDPWD not set\n");
-			return;
+			return (-1);
 		}
 	}
 	else
@@ -25,16 +25,17 @@ void cd_command(Command *cmd)
 	if (chdir(target_dir) != 0)
 	{
 		perror("cd");
-		return;
+		return (-1);
 	}
 	if (current_dir == NULL)
 	{
 		perror("cd");
-		return;
+		return (-1);
 	}
 	if (setenv("PWD", current_dir, 1) != 0)
 		perror("cd");
 	if (setenv("OLDPWD", getenv("PWD"), 1) != 0)
 		perror("cd");
 	free(current_dir);
+	return (0);
 }

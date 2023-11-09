@@ -5,9 +5,10 @@
  * exec_line - executes the command
  * @cmd: pointer to command
  */
-void exec_line(Command *cmd)
+int exec_line(Command *cmd)
 {
 	char *path, *path_copy, *token, command_path[1024];
+	int ret = -1;
 
 	if (_strchr(cmd->name, '/') == NULL)
 	{
@@ -20,7 +21,7 @@ void exec_line(Command *cmd)
 			{
 				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
 				cmd->arguments[0] = command_path;
-				execve(command_path, cmd->arguments, environ);
+				ret = execve(command_path, cmd->arguments, environ);
 				token = _strtok(NULL, ":");
 			}
 			free(path_copy);
@@ -29,20 +30,22 @@ void exec_line(Command *cmd)
 	else
 	{
 		cmd->arguments[0] = cmd->name;
-		execve(cmd->name, cmd->arguments, environ);
+		ret = execve(cmd->name, cmd->arguments, environ);
 	}
+	return (ret);
 }
 
 /**
  * execute_command - executes commands and fork the child process
  * @cmd: pointer to command
  */
-void execute_command(Command *cmd)
+int execute_command(Command *cmd)
 {
 	pid_t child_pid;
+	int ret = -1;
 
 	if (cmd->name == NULL)
-		return;
+		return (-1);
 	child_pid = fork();
 	if (child_pid == -1)
 		perror("fork");
@@ -58,10 +61,11 @@ void execute_command(Command *cmd)
 			dup2(cmd->output_file, STDOUT_FILENO);
 			close(cmd->output_file);
 		}
-		exec_line(cmd);
+		ret = exec_line(cmd);
 		perror("execve");
-		exit(1);
+		exit(-1);
 	}
 	else
 		wait(NULL);
+	return (ret)
 }
