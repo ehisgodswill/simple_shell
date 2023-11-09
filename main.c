@@ -62,7 +62,7 @@ void shell_loop(char *input)
 			printf("%d", r);
 			if (r == -1 && array[i].type == 2)
 			{
-				while (array[i].type != 0)
+				while (array[i].type != 0 && array)
 					i++;
 			}
 			else if (r != -1 && array[i].type == 1)
@@ -99,6 +99,6 @@ int run_function(Command *cmd)
 {
 	tokenize_input(cmd);
 	if (getfunction(cmd))
-		return getfunction(cmd);
-	return (execute_command(cmd));
+		return (getfunction(cmd) + 13);
+	return (execute_command(cmd) + 4);
 }
