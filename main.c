@@ -59,20 +59,20 @@ void shell_loop(char *input)
 			cmd.input = array[i].input;
 
 			r = run_function(&cmd);
-			printf("%d", r);
 			if (r == -1 && array[i].type == 2)
 			{
-				while (array[i].type != 0 && array[i].input != NULL )
+				while (array[i].type != 0 && array[i].input != NULL)
 					i++;
 			}
 			else if (r != -1 && array[i].type == 1)
 			{
-				while (array[i].type != 0 && array[i].input != NULL )
+				while (array[i].type != 0 && array[i].input != NULL)
 					i++;
 			}
 		}
 		i++;
 	}
+
 }
 
 /**

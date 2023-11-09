@@ -1,11 +1,21 @@
 #include <string.h>
 #include "shell.h"
 
+void parse(list *array, int *i, char *token, int type, int *j)
+{
+	*token = '\0';
+	array[*i].type = type;
+	if (type != 0)
+		token++;
+	array[*i].next = token + 1;
+	*j = -1;
+	*i = *i + 1;
+}
 /**
  * parse_input - format commands into a list
  * @array: array list of command
  * @input: input line read
-*/
+ */
 void parse_input(list *array, char *input)
 {
 	char *token = input;
@@ -15,31 +25,16 @@ void parse_input(list *array, char *input)
 	{
 		array[i].input = token - j;
 		if (*token == '&' && token[1] == '&')
-		{
-			array[i].input = token - j;
-			j = -1;
-			*token = '\0';
-			array[i].type = 2;
-			token++;
-			array[i++].next = token + 1;
-		}
+			parse(array, &i, token, 2, &j);
 		else if (*token == '|' && token[1] == '|')
-		{
-			array[i].input = token - j;
-			j = -1;
-			*token = '\0';
-			array[i].type = 1;
-			token++;
-			array[i++].next = token + 1;
-		}
+			parse(array, &i, token, 1, &j);
 		else if (*token == ';')
+			parse(array, &i, token, 0, &j);
+		else if (*token == '#')
 		{
-			array[i].input = token - j;
-			j = -1;
-			*token = '\0';
-			array[i].type = 0;
-			token++;
-			array[i++].next = token + 1;
+			parse(array, &i, token, 0, &j);
+			array[i - 1].next = NULL;
+			break;
 		}
 		token++;
 	}
