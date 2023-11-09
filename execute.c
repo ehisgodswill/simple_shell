@@ -37,6 +37,7 @@ void exec_line(Command *cmd)
 /**
  * execute_command - executes commands and fork the child process
  * @cmd: pointer to command
+ * Return: -1 on failure
  */
 int execute_command(Command *cmd)
 {
@@ -71,5 +72,5 @@ int execute_command(Command *cmd)
 		if (ret != 0)
 			ret = -1;
 	}
-	return ret;
+	return (ret);
 }

@@ -34,6 +34,7 @@ typedef struct command
  * @input: pointer to command statement
  * @next: next command;
  * @type: type of command sequence, 1 = OR, 2 = AND, 0 = END
+ * Description: struct that holds an input line info
  */
 typedef struct list
 {
