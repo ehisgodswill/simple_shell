@@ -61,6 +61,8 @@ void tokenize_input(Command *cmd)
 	while ((token = _strtok(NULL, " \n\t")) != NULL && i < 19)
 	{
 		cmd->arguments[i] = token;
+		if (cmd->arguments[i][0] == '$')
+			cmd->arguments[i] = getenv(&cmd->arguments[i][1]);
 		i++;
 	}
 	cmd->arguments[i] = NULL;
