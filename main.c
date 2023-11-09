@@ -99,6 +99,6 @@ int run_function(Command *cmd)
 {
 	tokenize_input(cmd);
 	if (getfunction(cmd))
-		return (getfunction(cmd) + 13);
-	return (execute_command(cmd) + 4);
+		return (getfunction(cmd));
+	return (execute_command(cmd));
 }
