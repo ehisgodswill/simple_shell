@@ -1,5 +1,6 @@
 #include <sys/wait.h>
 #include "shell.h"
+#include <errno.h>
 
 /**
  * exec_line - executes the command
@@ -32,6 +33,7 @@ int exec_line(Command *cmd)
 		cmd->arguments[0] = cmd->name;
 		ret = execve(cmd->name, cmd->arguments, environ);
 	}
+	printf("*ret:%d*", ret);
 	return (ret);
 }
 
@@ -44,6 +46,7 @@ int execute_command(Command *cmd)
 	pid_t child_pid;
 	int ret = 0;
 
+	errno = 0;
 	if (cmd->name == NULL)
 		return (-1);
 	child_pid = fork();
@@ -68,7 +71,8 @@ int execute_command(Command *cmd)
 	else
 	{
 		wait(NULL);
-		return (ret);
+		if (errno != 0)
+			ret = -1;
 	}
-	return ;
+	return ret;
 }
