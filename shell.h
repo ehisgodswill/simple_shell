@@ -29,13 +29,28 @@ typedef struct command
 	int output_file;
 } Command;
 
+/**
+ * list - list of commands to run
+ * @input: pointer to command statement
+ * @next: next command;
+ * @type: type of command sequence, 1 = OR, 2 = AND, 0 = END
+ */
+typedef struct list
+{
+	char *input;
+	char *next;
+	int type;
+
+} list;
+
 void tokenize_input(Command *cmd);
-void execute_command(Command *cmd);
-void print_environment(void);
+int execute_command(Command *cmd);
+int print_environment(void);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-void set_environment(Command *cmd);
-void unset_environment(Command *cmd);
-void cd_command(Command *cmd);
+int set_environment(Command *cmd);
+int unset_environment(Command *cmd);
+int cd_command(Command *cmd);
+void parse_input(list *array, char *input);
 
 /* helper functions */
 

@@ -2,6 +2,7 @@
 
 void shell_loop(char *input);
 int getfunction(Command *cmd);
+int run_function(Command *cmd);
 
 /**
  * main - main logic
@@ -33,7 +34,6 @@ int main(void)
 		input[_strlen(input) - 1] = '\0';
 		shell_loop(input);
 		free(input);
-
 	}
 	return (0);
 }
@@ -44,33 +44,32 @@ int main(void)
  */
 void shell_loop(char *input)
 {
-	char *token[64];
+	list array[64];
 	Command cmd;
-	int i = 0;
+	int i, r;
 
-	token[i] = _strtok(input, ";");
-	while (token[i] != NULL)
-	{
-		i++;
-		token[i] = _strtok(NULL, ";");
-	}
+	parse_input(array, input);
 	i = 0;
-	while (token[i] != NULL)
+	while (array[i].input != NULL)
 	{
-		if (*token[i] != '\0')
+		if (array[i].input[0] != '\0')
 		{
 			cmd.input_file = STDIN_FILENO;
 			cmd.output_file = STDOUT_FILENO;
-			cmd.input = token[i];
+			cmd.input = array[i].input;
 
-			tokenize_input(&cmd);
-			if (getfunction(&cmd))
+			r = run_function(&cmd);
+			printf("%d", r);
+			if (r == -1 && array[i].type == 2)
 			{
-				i++;
-				token[i] = _strtok(NULL, ";");
-				continue;
+				while (array[i].type != 0 && array[i].input != NULL )
+					i++;
 			}
-			execute_command(&cmd);
+			else if (r != -1 && array[i].type == 1)
+			{
+				while (array[i].type != 0 && array[i].input != NULL )
+					i++;
+			}
 		}
 		i++;
 	}
@@ -87,20 +86,19 @@ int getfunction(Command *cmd)
 		if (_strcmp(cmd->name, "exit") == 0)
 			exit(0);
 		else if (_strcmp(cmd->name, "env") == 0)
-		{
-			print_environment();
-			return (1);
-		}
+			return (print_environment());
 		else if (_strcmp(cmd->name, "setenv") == 0)
-		{
-			set_environment(cmd);
-			return (1);
-		}
+			return (set_environment(cmd));
 		else if (_strcmp(cmd->name, "unsetenv") == 0)
-		{
-			unset_environment(cmd);
-			return (1);
-		}
+			return (unset_environment(cmd));
 	}
 	return (0);
+}
+
+int run_function(Command *cmd)
+{
+	tokenize_input(cmd);
+	if (getfunction(cmd))
+		return (getfunction(cmd));
+	return (execute_command(cmd));
 }

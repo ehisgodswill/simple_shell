@@ -3,7 +3,7 @@
  * print_environment - prints the current environment variables to the
  * standard output
  */
-void print_environment(void)
+int print_environment(void)
 {
 	char **env = environ;
 
@@ -12,13 +12,14 @@ void print_environment(void)
 		printf("%s\n", *env);
 		env++;
 	}
+	return (1);
 }
 
 /**
  * set_environment - sets an environment variable
  * @cmd: command structure
  */
-void set_environment(Command *cmd)
+int set_environment(Command *cmd)
 {
 	char arg[BUFSIZ], *line, *a;
 	char **env = environ;
@@ -27,7 +28,7 @@ void set_environment(Command *cmd)
 	if (cmd->argcount != 3)
 	{
 		write(STDERR_FILENO, "Number of arguments not correct\n", 32);
-		return;
+		return (-1);
 	}
 	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
 	while (*env)
@@ -36,7 +37,7 @@ void set_environment(Command *cmd)
 		if (line == NULL || cmd->argcount != 3)
 		{
 			write(STDERR_FILENO, "setenv failed\n", 14);
-			return;
+			return (-1);
 		}
 		a = _strtok(line, "=");
 		if (_strcmp(a, cmd->arguments[1]) == 0)
@@ -54,13 +55,14 @@ void set_environment(Command *cmd)
 		*env = arg;
 		*++env = NULL;
 	}
+	return (1);
 }
 
 /**
  * unset_environment - sets an environment variable
  * @cmd: command structure
  */
-void unset_environment(Command *cmd)
+int unset_environment(Command *cmd)
 {
 	char arg[BUFSIZ], *line, *a;
 	char **env = environ;
@@ -69,7 +71,7 @@ void unset_environment(Command *cmd)
 	if (cmd->argcount != 2)
 	{
 		write(STDERR_FILENO, "Number of arguments not correct\n", 32);
-		return;
+		return (-1);
 	}
 	sprintf(arg, "%s=%s", cmd->arguments[1], cmd->arguments[2]);
 	while (*env)
@@ -78,7 +80,7 @@ void unset_environment(Command *cmd)
 		if (line == NULL)
 		{
 			write(STDERR_FILENO, "unsetenv failed\n", 14);
-			return;
+			return (-1);
 		}
 		a = _strtok(line, "=");
 		if (_strcmp(a, cmd->arguments[1]) == 0)
@@ -90,4 +92,5 @@ void unset_environment(Command *cmd)
 		env++;
 	}
 	free(line);
+	return (1);
 }

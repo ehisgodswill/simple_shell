@@ -1,5 +1,6 @@
 #include <sys/wait.h>
 #include "shell.h"
+#include <errno.h>
 
 /**
  * exec_line - executes the command
@@ -37,12 +38,14 @@ void exec_line(Command *cmd)
  * execute_command - executes commands and fork the child process
  * @cmd: pointer to command
  */
-void execute_command(Command *cmd)
+int execute_command(Command *cmd)
 {
 	pid_t child_pid;
+	int ret;
 
+	errno = 0;
 	if (cmd->name == NULL)
-		return;
+		return (-1);
 	child_pid = fork();
 	if (child_pid == -1)
 		perror("fork");
@@ -60,8 +63,13 @@ void execute_command(Command *cmd)
 		}
 		exec_line(cmd);
 		perror("execve");
-		exit(1);
+		exit(-1);
 	}
 	else
-		wait(NULL);
+	{
+		wait(&ret);
+		if (ret != 0)
+			ret = -1;
+	}
+	return ret;
 }
