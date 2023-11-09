@@ -66,6 +66,8 @@ int execute_command(Command *cmd)
 		exit(-1);
 	}
 	else
+	{
 		wait(NULL);
-	return (ret);
+		return (0);
+	}
 }
