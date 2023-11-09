@@ -9,7 +9,7 @@ void parse(list *array, int *i, char *token, int type, int *j)
 		token++;
 	array[*i].next = token + 1;
 	*j = -1;
-	*i++;
+	*i = *i + 1;
 }
 /**
  * parse_input - format commands into a list
@@ -25,14 +25,14 @@ void parse_input(list *array, char *input)
 	{
 		array[i].input = token - j;
 		if (*token == '&' && token[1] == '&')
-			parse(array, &i, token, 2, token + 2, &j);
+			parse(array, &i, token, 2, &j);
 		else if (*token == '|' && token[1] == '|')
-			parse(array, &i, token, 1, token + 2, &j);
+			parse(array, &i, token, 1, &j);
 		else if (*token == ';')
-			parse(array, &i, token, 0, token + 2, &j);
+			parse(array, &i, token, 0, &j);
 		else if (*token == '#')
 		{
-			parse(array, &i, token, 0, NULL, &j);
+			parse(array, &i, token, 0, &j);
 			array[i - 1].next = NULL;
 			break;
 		}
