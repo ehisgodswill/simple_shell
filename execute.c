@@ -6,10 +6,9 @@
  * exec_line - executes the command
  * @cmd: pointer to command
  */
-int exec_line(Command *cmd)
+void exec_line(Command *cmd)
 {
 	char *path, *path_copy, *token, command_path[1024];
-	int ret = -1;
 
 	if (_strchr(cmd->name, '/') == NULL)
 	{
@@ -22,7 +21,7 @@ int exec_line(Command *cmd)
 			{
 				snprintf(command_path, sizeof(command_path), "%s/%s", token, cmd->name);
 				cmd->arguments[0] = command_path;
-				ret = execve(command_path, cmd->arguments, environ);
+				execve(command_path, cmd->arguments, environ);
 				token = _strtok(NULL, ":");
 			}
 			free(path_copy);
@@ -31,9 +30,8 @@ int exec_line(Command *cmd)
 	else
 	{
 		cmd->arguments[0] = cmd->name;
-		ret = execve(cmd->name, cmd->arguments, environ);
+		execve(cmd->name, cmd->arguments, environ);
 	}
-	return (ret);
 }
 
 /**
@@ -43,7 +41,7 @@ int exec_line(Command *cmd)
 int execute_command(Command *cmd)
 {
 	pid_t child_pid;
-	int ret = 0;
+	int ret;
 
 	errno = 0;
 	if (cmd->name == NULL)
@@ -63,15 +61,14 @@ int execute_command(Command *cmd)
 			dup2(cmd->output_file, STDOUT_FILENO);
 			close(cmd->output_file);
 		}
-		ret = exec_line(cmd);
+		exec_line(cmd);
 		perror("execve");
 		exit(-1);
 	}
 	else
 	{
-		wait(NULL);
-	printf("*ret:%d*", ret);
-		ret = -1;
+		wait(&ret);
+		printf("*ret:%d*", ret);
 	}
 	return ret;
 }
