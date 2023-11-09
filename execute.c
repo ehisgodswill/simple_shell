@@ -33,7 +33,6 @@ int exec_line(Command *cmd)
 		cmd->arguments[0] = cmd->name;
 		ret = execve(cmd->name, cmd->arguments, environ);
 	}
-	printf("*ret:%d*", ret);
 	return (ret);
 }
 
@@ -74,5 +73,6 @@ int execute_command(Command *cmd)
 		if (errno != 0)
 			ret = -1;
 	}
+	printf("*ret:%d*", ret);
 	return ret;
 }
