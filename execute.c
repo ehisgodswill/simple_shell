@@ -68,7 +68,8 @@ int execute_command(Command *cmd)
 	else
 	{
 		wait(&ret);
-		printf("*ret:%d*", ret);
+		if (ret != 0)
+			ret = -1;
 	}
 	return ret;
 }
