@@ -62,7 +62,7 @@ void tokenize_input(Command *cmd)
 	{
 		cmd->arguments[i] = token;
 		if (cmd->arguments[i][0] == '$')
-			cmd->arguments[i] = getenv(&cmd->arguments[i][1]);
+			replace_argument(cmd->arguments[i], cmd);
 		i++;
 	}
 	cmd->arguments[i] = NULL;

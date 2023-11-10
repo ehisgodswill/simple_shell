@@ -45,7 +45,7 @@ int main(void)
 void shell_loop(char *input)
 {
 	list array[64];
-	Command cmd;
+	Command cmd = CMD_INIT;
 	int i, r;
 
 	parse_input(array, input);

@@ -68,7 +68,7 @@ int execute_command(Command *cmd)
 	}
 	else
 	{
-		wait(&ret);
+		wait(&cmd->status);
 		if (ret != 0)
 			ret = -1;
 	}
