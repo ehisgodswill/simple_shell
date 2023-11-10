@@ -2,6 +2,7 @@
 
 void shell_loop(char *input);
 int getfunction(Command *cmd);
+int run_function(Command *cmd);
 
 /**
  * main - main logic

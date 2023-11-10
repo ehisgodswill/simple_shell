@@ -32,10 +32,10 @@ typedef struct command
 } Command;
 
 #define CMD_INIT                       \
-	{NULL, {NULL}, NULL, 0, 0, 0, 0}
+	{NULL, NULL, NULL, 0, 0, 0, 0}
 
 /**
- * list - list of commands to run
+ * struct list - list of commands to run
  * @input: pointer to command statement
  * @next: next command;
  * @type: type of command sequence, 1 = OR, 2 = AND, 0 = END

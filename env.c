@@ -62,7 +62,7 @@ int set_environment(Command *cmd)
 
 /**
  * unset_environment - sets an environment variable
- * @cmd: command 
+ * @cmd: command
  * Return: 1 on success -1 on failure
  */
 int unset_environment(Command *cmd)
