@@ -42,7 +42,7 @@ void exec_line(Command *cmd)
 int execute_command(Command *cmd)
 {
 	pid_t child_pid;
-	int ret;
+	int ret = 0;
 
 	errno = 0;
 	if (cmd->name == NULL)
@@ -67,10 +67,9 @@ int execute_command(Command *cmd)
 		exit(-1);
 	}
 	else
-	{
 		wait(&cmd->status);
-		if (ret != 0)
-			ret = -1;
-	}
+	ret = cmd->status;
+	if (ret != 0)
+		ret = -1;
 	return (ret);
 }

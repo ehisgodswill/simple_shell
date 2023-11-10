@@ -1,6 +1,21 @@
 #include "shell.h"
 
 /**
+ * replace_argument - replace an argument with variable
+ * @argument: argument
+ * @cmd: cmd structure
+*/
+void replace_argument(char *argument, Command *cmd)
+{
+	if (argument[1] == '$')
+		tostring(argument, getpid());
+	else if (argument[1] == '?')
+		tostring(argument, cmd->status);
+	else
+		argument = "";
+}
+
+/**
  * tostring - converts an integer to string
  * @str: string
  * @num: number
@@ -24,19 +39,4 @@ void tostring(char str[], int num)
 		str[len - (i + 1)] = rem + '0';
 	}
 	str[len] = '\0';
-}
-
-/**
- * replace_argument - replace an argument with variable
- * @argument: argument
- * @cmd: cmd structure
-*/
-void replace_argument(char *argument, Command *cmd)
-{
-	if (argument[1] == '$')
-		tostring(argument, getpid());
-	else if (argument[1] == '?')
-		tostring(argument, cmd->status);
-	else
-        argument = "";
 }

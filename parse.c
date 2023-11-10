@@ -1,6 +1,13 @@
 #include <string.h>
 #include "shell.h"
-
+/**
+ * parse - parse a list array of inputs
+ * @array: list array
+ * @i: array index
+ * @token: string token
+ * @type: type - 0=END 1=OR 2=AND
+ * @j: counter
+*/
 void parse(list *array, int *i, char *token, int type, int *j)
 {
 	*token = '\0';

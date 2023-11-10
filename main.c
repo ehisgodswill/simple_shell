@@ -2,7 +2,6 @@
 
 void shell_loop(char *input);
 int getfunction(Command *cmd);
-int run_function(Command *cmd);
 
 /**
  * main - main logic
@@ -78,6 +77,7 @@ void shell_loop(char *input)
 /**
  * getfunction - finds the function needed
  * @cmd: command structure
+ * Return: integer
  */
 int getfunction(Command *cmd)
 {
@@ -94,7 +94,11 @@ int getfunction(Command *cmd)
 	}
 	return (0);
 }
-
+/**
+ * run_function - run function
+ * @cmd: command struct
+ * Return: return value
+*/
 int run_function(Command *cmd)
 {
 	tokenize_input(cmd);

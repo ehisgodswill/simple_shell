@@ -23,7 +23,7 @@ extern char **environ;
 typedef struct command
 {
 	char *name;
-	char *arguments;
+	char **arguments;
 	char *input;
 	int argcount;
 	int input_file;
@@ -39,6 +39,7 @@ typedef struct command
  * @input: pointer to command statement
  * @next: next command;
  * @type: type of command sequence, 1 = OR, 2 = AND, 0 = END
+ *
  * Description: struct that holds an input line info
  */
 typedef struct list
@@ -68,5 +69,6 @@ char *__strdup(char *str);
 char *_strtok(char *str, const char *delim);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
+void tostring(char str[], int num);
 
 #endif
