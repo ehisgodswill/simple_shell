@@ -65,7 +65,7 @@ void tokenize_input(Command *cmd)
 	}
 	cmd->name = token;
 
-	while ((token = _strtok(NULL, " \n\t")) != NULL && i < 19)
+	while ((token = _strtok(NULL, " \n\t")) != NULL)
 	{
 		cmd->arguments[i] = token;
 		if (cmd->arguments[i][0] == '$')

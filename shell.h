@@ -23,7 +23,7 @@ extern char **environ;
 typedef struct command
 {
 	char *name;
-	char **arguments;
+	char *arguments[32];
 	char *input;
 	int argcount;
 	int input_file;
@@ -32,7 +32,7 @@ typedef struct command
 } Command;
 
 #define CMD_INIT                       \
-	{NULL, NULL, NULL, 0, 0, 0, 0}
+	{NULL, {NULL}, NULL, 0, 0, 0, 0}
 
 /**
  * struct list - list of commands to run
