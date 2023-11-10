@@ -45,7 +45,7 @@ int main(void)
 void shell_loop(char *input)
 {
 	list array[64];
-	Command cmd;
+	Command cmd = CMD_INIT;
 	int i, r;
 
 	parse_input(array, input);
@@ -78,6 +78,7 @@ void shell_loop(char *input)
 /**
  * getfunction - finds the function needed
  * @cmd: command structure
+ * Return: integer
  */
 int getfunction(Command *cmd)
 {
@@ -94,7 +95,11 @@ int getfunction(Command *cmd)
 	}
 	return (0);
 }
-
+/**
+ * run_function - run function
+ * @cmd: command struct
+ * Return: return value
+*/
 int run_function(Command *cmd)
 {
 	tokenize_input(cmd);

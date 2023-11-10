@@ -1,6 +1,13 @@
 #include <string.h>
 #include "shell.h"
-
+/**
+ * parse - parse a list array of inputs
+ * @array: list array
+ * @i: array index
+ * @token: string token
+ * @type: type - 0=END 1=OR 2=AND
+ * @j: counter
+*/
 void parse(list *array, int *i, char *token, int type, int *j)
 {
 	*token = '\0';
@@ -58,9 +65,11 @@ void tokenize_input(Command *cmd)
 	}
 	cmd->name = token;
 
-	while ((token = _strtok(NULL, " \n\t")) != NULL && i < 19)
+	while ((token = _strtok(NULL, " \n\t")) != NULL)
 	{
 		cmd->arguments[i] = token;
+		if (cmd->arguments[i][0] == '$')
+			replace_argument(cmd->arguments[i], cmd);
 		i++;
 	}
 	cmd->arguments[i] = NULL;
