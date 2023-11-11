@@ -2,6 +2,7 @@
 /**
  * print_environment - prints the current environment variables to the
  * standard output
+ * Return: 1
  */
 int print_environment(void)
 {
@@ -18,6 +19,7 @@ int print_environment(void)
 /**
  * set_environment - sets an environment variable
  * @cmd: command structure
+ * Return: 1 on success -1 on failure
  */
 int set_environment(Command *cmd)
 {
@@ -60,7 +62,8 @@ int set_environment(Command *cmd)
 
 /**
  * unset_environment - sets an environment variable
- * @cmd: command structure
+ * @cmd: command
+ * Return: 1 on success -1 on failure
  */
 int unset_environment(Command *cmd)
 {

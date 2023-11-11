@@ -3,6 +3,7 @@
  * cd_command - changes the current directory, interpretes cd without arguments
  * as cd $HOME, handles cd - and updates the PWD
  * @cmd: pointer
+ * Return: integer
  */
 int cd_command(Command *cmd)
 {
