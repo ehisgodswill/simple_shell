@@ -4,9 +4,9 @@
  * @s: char pointer of the string
  * Return: integer length of the string
 */
-int _strlen(char *s)
+size_t _strlen(const char *s)
 {
-	int length = 0;
+	size_t length = 0;
 
 	while (s[length] != '\0')
 		length++;
