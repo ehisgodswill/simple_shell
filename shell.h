@@ -69,8 +69,8 @@ char *__strdup(char *str);
 char *_strtok(char *str, const char *delim);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
+void tostring(char str[], int num);
 char *_getenv(const char *name);
 int _strncmp(const char *s1, const char *s2, size_t num);
-void tostring(char str[], int num);
 
 #endif
