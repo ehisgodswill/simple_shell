@@ -63,12 +63,14 @@ void replace_argument(char *argument, Command *cmd);
 /* helper functions */
 
 char *_strchr(char *s, char c);
-int _strlen(char *s);
+size_t _strlen(const char *s);
 int _strcmp(char *s1, char *s2);
 char *__strdup(char *str);
 char *_strtok(char *str, const char *delim);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 void tostring(char str[], int num);
+char *_getenv(const char *name);
+int _strncmp(const char *s1, const char *s2, size_t num);
 
 #endif
