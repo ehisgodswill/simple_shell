@@ -3,13 +3,13 @@
  * cd_command - changes the current directory, interpretes cd without arguments
  * as cd $HOME, handles cd - and updates the PWD
  * @cmd: pointer
- * Return: integer
+ * Return: 0 success
  */
 int cd_command(Command *cmd)
 {
 	char *target_dir = NULL;
 	char *current_dir = getcwd(NULL, 0);
-	char *oldpwd_value = _getenv("OLDPWD");
+	char *opwd_value = _getenv("OLDPWD");
 
 	if (current_dir == NULL)
 	{
@@ -31,11 +31,9 @@ int cd_command(Command *cmd)
 	else
 		target_dir = cmd->arguments[1];
 	if (target_dir == NULL)
-	{
 		fprintf(stderr, "cd: No such environment variable\n");
 		free(current_dir);
 		return (-1);
-	}
 	if (chdir(target_dir) != 0)
 	{
 		perror("chdir");
@@ -44,8 +42,8 @@ int cd_command(Command *cmd)
 	}
 	if (setenv("PWD", current_dir, 1) != 0)
 		perror("setenv");
-	if (setenv("OLDPWD", oldpwd_value != NULL ? oldpwd_value : current_dir, 1) != 0)
+	if (setenv("OLDPWD", opwd_value != NULL ? opwd_value : current_dir, 1) != 0)
 		perror("setenv");
 	free(current_dir);
-	return 0;
+	return (0);
 }
