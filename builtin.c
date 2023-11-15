@@ -65,7 +65,7 @@ int abort_prg(sh_t *data __attribute__((unused)))
 			return (FAIL);
 		}
 	}
-	code = _atoi(data->args[1]);
+	code = atoi(data->args[1]);
 	free_data(data);
 	exit(code);
 }
