@@ -4,9 +4,7 @@
 /**
  * change_dir - changes directory
  * @data: a pointer to the data structure
- *
- * Return: (Success) 0 is returned
- * ------- (Fail) negative number will returned
+ * Return: 0 on success or 1 on fail
  */
 int change_dir(sh_t *data)
 {
@@ -48,8 +46,7 @@ int change_dir(sh_t *data)
  * abort_prg - exit the program
  * @data: a pointer to the data structure
  *
- * Return: (Success) 0 is returned
- * ------- (Fail) negative number will returned
+ * Return: 0 succes 1 fail
  */
 int abort_prg(sh_t *data __attribute__((unused)))
 {
@@ -62,7 +59,7 @@ int abort_prg(sh_t *data __attribute__((unused)))
 	}
 	while (data->args[1][i])
 	{
-		if (_isalpha(data->args[1][i++]) < 0)
+		if (_isalpha(data->args[1][i++]) >= 0)
 		{
 			data->error_msg = _strdup("Illegal number\n");
 			return (FAIL);
@@ -76,8 +73,7 @@ int abort_prg(sh_t *data __attribute__((unused)))
  * display_help - display the help menu
  * @data: a pointer to the data structure
  *
- * Return: (Success) 0 is returned
- * ------- (Fail) negative number will returned
+ * Return: (Success) 0 or 1 fail
  */
 int display_help(sh_t *data)
 {
@@ -106,9 +102,7 @@ int display_help(sh_t *data)
 /**
  * handle_builtin - handle and manage the builtins cmd
  * @data: a pointer to the data structure
- *
- * Return: (Success) 0 is returned
- * ------- (Fail) negative number will returned
+ * Return: 0 on success or 1 fail
  */
 int handle_builtin(sh_t *data)
 {
