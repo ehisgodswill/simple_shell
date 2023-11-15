@@ -1,119 +1,180 @@
 #include "shell.h"
 
-void shell_loop(char *input);
-int getfunction(Command *cmd);
-int run_function(Command *cmd);
-
 /**
- * main - main logic
- * Return: 0 success
+ * main - the main function
+ *
+ * Return: (Success) 0 always
+ * ------- (Fail) we drop out the looser :)
  */
 int main(void)
 {
-	char *input;
-	size_t bufsize = 1024;
-	/*int exit_status = 0;*/
+	sh_t data;
+	int pl;
 
+	_memset((void *)&data, 0, sizeof(data));
+	signal(SIGINT, signal_handler);
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "$ ", 2);
-
-		input = (char *)malloc(bufsize * sizeof(char));
-		if (_getline(&input, &bufsize, stdin) == -1)
+		index_cmd(&data);
+		if (read_line(&data) < 0)
 		{
-			free(input);
-			if (feof(stdin))
-			{
-				/* printf("\n"); */
-				exit(0);
-			}
-			/* perror("getline"); */
-			exit(1);
+			if (isatty(STDIN_FILENO))
+				PRINT("\n");
+			break;
 		}
-		input[_strlen(input) - 1] = '\0';
-		shell_loop(input);
-		free(input);
+		if (split_line(&data) < 0)
+		{
+			free_data(&data);
+			continue;
+		}
+		pl = parse_line(&data);
+		if (pl == 0)
+		{
+			free_data(&data);
+			continue;
+		}
+		if (pl < 0)
+		{
+			print_error(&data);
+			continue;
+		}
+		if (process_cmd(&data) < 0)
+		{
+			print_error(&data);
+			break;
+		}
+		free_data(&data);
 	}
+	free_data(&data);
+	exit(EXIT_SUCCESS);
+}
+
+/**
+ * read_line - read a line from the standard input
+ * @data: a pointer to the struct of data
+ *
+ * Return: (Success) a positive number
+ * ------- (Fail) a negative number
+ */
+int read_line(sh_t *data)
+{
+	char *csr_ptr, *end_ptr, c;
+	size_t size = BUFSIZE, read_st, length, new_size;
+
+	data->line = malloc(size * sizeof(char));
+	if (data->line == NULL)
+		return (FAIL);
+	if (isatty(STDIN_FILENO))
+		PRINT(PROMPT);
+	for (csr_ptr = data->line, end_ptr = data->line + size;;)
+	{
+		read_st = read(STDIN_FILENO, &c, 1);
+		if (read_st == 0)
+			return (FAIL);
+		*csr_ptr++ = c;
+		if (c == '\n')
+		{
+			*csr_ptr = '\0';
+			return (SUCCESS);
+		}
+		if (csr_ptr + 2 >= end_ptr)
+		{
+			new_size = size * 2;
+			length = csr_ptr - data->line;
+			data->line = _realloc(data->line, size * sizeof(char),
+						new_size * sizeof(char));
+			if (data->line == NULL)
+				return (FAIL);
+			size = new_size;
+			end_ptr = data->line + size;
+			csr_ptr = data->line + length;
+		}
+	}
+}
+#define DELIMITER " \n\t\r\a\v"
+/**
+ * split_line - splits line to tokens
+ * @data: a pointer to the struct of data
+ *
+ * Return: (Success) a positive number
+ * ------- (Fail) a negative number
+ */
+int split_line(sh_t *data)
+{
+	char *token;
+	size_t size = TOKENSIZE, new_size, i = 0;
+
+	if (_strcmp(data->line, "\n") == 0)
+		return (FAIL);
+	data->args = malloc(size * sizeof(char *));
+	if (data->args == NULL)
+		return (FAIL);
+	token = strtok(data->line, DELIMITER);
+	if (token == NULL)
+		return (FAIL);
+	while (token)
+	{
+		data->args[i++] =  token;
+		if (i + 2 >= size)
+		{
+			new_size = size * 2;
+			data->args = _realloc(data->args, size * sizeof(char *),
+					new_size * sizeof(char *));
+			if (data->args == NULL)
+				return (FAIL);
+			size = new_size;
+		}
+		token = strtok(NULL, DELIMITER);
+	}
+	data->args[i] = NULL;
 	return (0);
 }
-
+#undef DELIMITER
+#define DELIMITER ":"
 /**
- * shell_loop - seperate line by ';' and loops
- * @input: line
+ * parse_line - parses arguments to valid command
+ * @data: a pointer to the struct of data
+ *
+ * Return: (Success) a positive number
+ * ------- (Fail) a negative number
  */
-void shell_loop(char *input)
+int parse_line(sh_t *data)
 {
-	list array[64];
-	Command cmd = CMD_INIT;
-	int i, r;
-
-	parse_input(array, input);
-	i = 0;
-	while (array[i].input != NULL)
+	if (is_path_form(data) > 0)
+		return (SUCCESS);
+	if (is_builtin(data) > 0)
 	{
-		if (array[i].input[0] != '\0')
-		{
-			cmd.input_file = STDIN_FILENO;
-			cmd.output_file = STDOUT_FILENO;
-			cmd.input = array[i].input;
-
-			r = run_function(&cmd);
-			if (r == -1 && array[i].type == 2)
-			{
-				while (array[i].type != 0 && array[i].input != NULL)
-					i++;
-			}
-			else if (r != -1 && array[i].type == 1)
-			{
-				while (array[i].type != 0 && array[i].input != NULL)
-					i++;
-			}
-		}
-		i++;
+		if (handle_builtin(data) < 0)
+			return (FAIL);
+		return (NEUTRAL);
 	}
-
+	is_short_form(data);
+	return (SUCCESS);
 }
-
+#undef DELIMITER
 /**
- * getfunction - finds the function needed
- * @cmd: command structure
- * Return: integer
+ * process_cmd - process command and execute process
+ * @data: a pointer to the struct of data
+ *
+ * Return: (Success) a positive number
+ * ------- (Fail) a negative number
  */
-int getfunction(Command *cmd)
+int process_cmd(sh_t *data)
 {
-	if (cmd->name != NULL)
-	{
-		if (_strcmp(cmd->name, "cd") == 0)
-		{
-			cd_command(cmd);
-		}
-		else if (_strcmp(cmd->name, "exit") == 0)
-		{
-			int exit_status = 0;
+	pid_t pid;
+	int status;
 
-			if  (cmd->arguments[1] != NULL)
-				exit_status = atoi(cmd->arguments[1]);
-			exit(exit_status);
-		}
-		else if (_strcmp(cmd->name, "env") == 0)
-			return (print_environment());
-		else if (_strcmp(cmd->name, "setenv") == 0)
-			return (set_environment(cmd));
-		else if (_strcmp(cmd->name, "unsetenv") == 0)
-			return (unset_environment(cmd));
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		if (execve(data->cmd, data->args, environ) < 0)
+		data->error_msg = _strdup("not found\n");
+			return (FAIL);
+	}
+	else
+	{
+		waitpid(pid, &status, WUNTRACED);
 	}
 	return (0);
-}
-/**
- * run_function - run function
- * @cmd: command struct
- * Return: return value
-*/
-int run_function(Command *cmd)
-{
-	tokenize_input(cmd);
-	if (getfunction(cmd))
-		return (getfunction(cmd));
-	return (execute_command(cmd));
 }

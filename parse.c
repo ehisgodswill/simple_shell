@@ -1,77 +1,77 @@
-#include <string.h>
 #include "shell.h"
 /**
- * parse - parse a list array of inputs
- * @array: list array
- * @i: array index
- * @token: string token
- * @type: type - 0=END 1=OR 2=AND
- * @j: counter
-*/
-void parse(list *array, int *i, char *token, int type, int *j)
-{
-	*token = '\0';
-	array[*i].type = type;
-	if (type != 0)
-		token++;
-	array[*i].next = token + 1;
-	*j = -1;
-	*i = *i + 1;
-}
-/**
- * parse_input - format commands into a list
- * @array: array list of command
- * @input: input line read
+ * is_path_form - chekc if the given fikenname is a path
+ * @data: the data strucct pointer
+ *
+ * Return: (Success)
+ * ------- (Fail) otherwise
  */
-void parse_input(list *array, char *input)
+int is_path_form(sh_t *data)
 {
-	char *token = input;
-	int j = 0, i = 0;
-
-	for (j = 0; *token; j++)
+	if (_strchr(data->args[0], '/') != 0)
 	{
-		array[i].input = token - j;
-		if (*token == '&' && token[1] == '&')
-			parse(array, &i, token, 2, &j);
-		else if (*token == '|' && token[1] == '|')
-			parse(array, &i, token, 1, &j);
-		else if (*token == ';')
-			parse(array, &i, token, 0, &j);
-		else if (*token == '#')
+		data->cmd = _strdup(data->args[0]);
+		return (SUCCESS);
+	}
+	return (FAIL);
+}
+#define DELIMITER ":"
+/**
+ * is_short_form - chekc if the given fikenname is short form
+ * @data: the data strucct pointer
+ *
+ * Return: (Success)
+ * ------- (Fail) otherwise
+ */
+void is_short_form(sh_t *data)
+{
+	char *path, *token, *_path;
+	struct stat st;
+	int exist_flag = 0;
+
+	path = _getenv("PATH");
+	_path = _strdup(path);
+	token = strtok(_path, DELIMITER);
+	while (token)
+	{
+		data->cmd = _strcat(token, data->args[0]);
+		if (stat(data->cmd, &st) == 0)
 		{
-			parse(array, &i, token, 0, &j);
-			array[i - 1].next = NULL;
+			exist_flag += 1;
 			break;
 		}
-		token++;
+		free(data->cmd);
+		token = strtok(NULL, DELIMITER);
 	}
-	array[i + 1].input = NULL;
+	if (exist_flag == 0)
+	{
+		data->cmd = _strdup(data->args[0]);
+	}
+	free(_path);
 }
-
+#undef DELIMITER
 /**
- * tokenize_input - splits user input into commands and their
- * their arguments
- * @cmd: pointer to the command
+ * is_builtin - checks if the command is builtin
+ * @data: a pointer to the data structure
+ *
+ * Return: (Success) 0 is returned
+ * ------- (Fail) negative number will returned
  */
-void tokenize_input(Command *cmd)
+int is_builtin(sh_t *data)
 {
-	int i = 1;
-	char *token = _strtok(cmd->input, " \n\t");
+	blt_t blt[] = {
+		{"exit", abort_prg},
+		{"cd", change_dir},
+		{"help", display_help},
+		{NULL, NULL}
+	};
+	int i = 0;
 
-	if (token == NULL)
+	while ((blt + i)->cmd)
 	{
-		cmd->name = NULL;
-		return;
-	}
-	cmd->name = token;
-
-	while ((token = _strtok(NULL, " \n\t")) != NULL)
-	{
-		cmd->arguments[i] = token;
-		if (cmd->arguments[i][0] == '$')
-			replace_argument(cmd->arguments[i], cmd);
+		if (_strcmp(data->args[0], (blt + i)->cmd) == 0)
+			return (SUCCESS);
 		i++;
 	}
-	cmd->arguments[i] = NULL;
-	cmd->argcount = i;
+	return (NEUTRAL);
 }
