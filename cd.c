@@ -31,9 +31,11 @@ int cd_command(Command *cmd)
 	else
 		target_dir = cmd->arguments[1];
 	if (target_dir == NULL)
+	{
 		fprintf(stderr, "cd: No such environment variable\n");
 		free(current_dir);
 		return (-1);
+	}
 	if (chdir(target_dir) != 0)
 	{
 		perror("chdir");
