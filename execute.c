@@ -63,7 +63,7 @@ int execute_command(Command *cmd)
 			close(cmd->output_file);
 		}
 		exec_line(cmd);
-		perror("execve");
+		perror("./hsh:");
 		exit(-1);
 	}
 	else
