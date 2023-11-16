@@ -168,7 +168,7 @@ void find_cmd(Command *info)
 	char *path = NULL;
 	int i, k;
 
-	info->name = info->arguments[0];
+	info->arguments[0] = info->name;
 	/* if (info->linecount_flag == 1)
 	{
 		info->line_count++;
