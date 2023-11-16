@@ -1,4 +1,5 @@
 #include "shell.h"
+void find_cmd(Command *info);
 
 /**
  * exec_line - executes the command
