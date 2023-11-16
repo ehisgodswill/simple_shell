@@ -7,6 +7,10 @@ extern char **environ;
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <errno.h>
 
 /**
  * struct command - command structure
@@ -17,18 +21,20 @@ extern char **environ;
  * @input_file: input fd
  * @output_file: output fd
  * @status: exit status of last command
+ * @environ: custom modified copy of environ from LL env
  *
  * Description: struct that holds all relevant command and argument
  */
 typedef struct command
 {
 	char *name;
-	char *arguments[32];
+	char **arguments;
 	char *input;
 	int argcount;
 	int input_file;
 	int output_file;
 	int status;
+	char **environ;
 } Command;
 
 #define CMD_INIT                       \
@@ -59,6 +65,9 @@ int unset_environment(Command *cmd);
 int cd_command(Command *cmd);
 void parse_input(list *array, char *input);
 void replace_argument(char *argument, Command *cmd);
+int is_cmd(Command *info, char *path);
+char **get_environ(Command *info);
+void free_cmd(info_t *info, int all);
 
 /* helper functions */
 
@@ -72,5 +81,8 @@ char *_strcpy(char *dest, char *src);
 void tostring(char str[], int num);
 char *_getenv(const char *name);
 int _strncmp(const char *s1, const char *s2, size_t num);
+char *starts_with(const char *haystack, const char *needle);
+int is_delim(char c, char *delim);
+char *dup_chars(char *pathstr, int start, int stop);
 
 #endif

@@ -1,21 +1,19 @@
-#include <sys/wait.h>
 #include "shell.h"
-#include <errno.h>
 
 /**
  * exec_line - executes the command
  * @cmd: pointer to command
  */
-void exec_line(Command *cmd)
+/* void exec_line(Command *cmd)
 {
 	char *path, *path_copy, *token, command_path[1024];
 
 	if (_strchr(cmd->name, '/') == NULL)
 	{
-		path = getenv("PATH");
+		path = _getenv("PATH");
 		if (path != NULL)
 		{
-			path_copy = strdup(path);
+			path_copy = __strdup(path);
 			token = _strtok(path_copy, ":");
 			while (token != NULL)
 			{
@@ -32,14 +30,14 @@ void exec_line(Command *cmd)
 		cmd->arguments[0] = cmd->name;
 		execve(cmd->name, cmd->arguments, environ);
 	}
-}
+} */
 
 /**
  * execute_command - executes commands and fork the child process
  * @cmd: pointer to command
  * Return: -1 on failure
  */
-int execute_command(Command *cmd)
+/* int execute_command(Command *cmd)
 {
 	pid_t child_pid;
 	int ret = 0;
@@ -72,4 +70,131 @@ int execute_command(Command *cmd)
 	if (ret != 0)
 		ret = -1;
 	return (ret);
+}
+ */
+
+
+/**
+ * find_path - finds this cmd in the PATH string
+ * @info: the info struct
+ * @pathstr: the PATH string
+ * @cmd: the cmd to find
+ *
+ * Return: full path of cmd if found or NULL
+ */
+char *find_path(Command info, char *pathstr, char *cmd)
+{
+	int i = 0, curr_pos = 0;
+	char *path;
+
+	if (!pathstr)
+		return (NULL);
+	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
+	{
+		if (is_cmd(info, cmd))
+			return (cmd);
+	}
+	while (1)
+	{
+		if (!pathstr[i] || pathstr[i] == ':')
+		{
+			path = dup_chars(pathstr, curr_pos, i);
+			if (!*path)
+				_strcat(path, cmd);
+			else
+			{
+				_strcat(path, "/");
+				_strcat(path, cmd);
+			}
+			if (is_cmd(info, path))
+				return (path);
+			if (!pathstr[i])
+				break;
+			curr_pos = i;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+/**
+ * fork_cmd - forks a an exec thread to run cmd
+ * @info: the parameter & return info struct
+ *
+ * Return: void
+ */
+void fork_cmd(Command *info)
+{
+	pid_t child_pid;
+
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		/* TODO: PUT ERROR FUNCTION */
+		perror("Error:");
+		return;
+	}
+	if (child_pid == 0)
+	{
+		if (execve(info->name, info->argv, get_environ(info)) == -1)
+		{
+			free_info(info, 1);
+			if (errno == EACCES)
+				exit(126);
+			exit(1);
+		}
+		/* TODO: PUT ERROR FUNCTION */
+	}
+	else
+	{
+		wait(&(info->status));
+		if (WIFEXITED(info->status))
+		{
+			info->status = WEXITSTATUS(info->status);
+			if (info->status == 126)
+				print_error(info, "Permission denied\n");
+		}
+	}
+}
+
+/**
+ * find_cmd - finds a command in PATH
+ * @info: the parameter & return info struct
+ *
+ * Return: void
+ */
+void find_cmd(Command *info)
+{
+	char *path = NULL;
+	int i, k;
+
+	info->name = info->arguments[0];
+	/* if (info->linecount_flag == 1)
+	{
+		info->line_count++;
+		info->linecount_flag = 0;
+	} */
+	for (i = 0, k = 0; info->arguments[i]; i++)
+		if (!is_delim(info->arguments[i], " \t\n"))
+			k++;
+	if (!k)
+		return;
+
+	path = find_path(info, _getenv(info, "PATH="), info->arguments[0]);
+	if (path)
+	{
+		info->name = path;
+		fork_cmd(info);
+	}
+	else
+	{
+		if ((isatty(STDIN_FILENO) || _getenv(info, "PATH=")
+			|| info->arguments[0][0] == '/') && is_cmd(info, info->arguments[0]))
+			fork_cmd(info);
+		else if (*(info->arguments) != '\n')
+		{
+			info->status = 127;
+			print_error(info, "not found\n");
+		}
+	}
 }
