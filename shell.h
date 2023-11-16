@@ -38,7 +38,7 @@ typedef struct command
 } Command;
 
 #define CMD_INIT                       \
-	{NULL, {NULL}, NULL, 0, 0, 0, 0}
+	{NULL, NULL, NULL, 0, 0, 0, 0, NULL}
 
 /**
  * struct list - list of commands to run
@@ -67,7 +67,7 @@ void parse_input(list *array, char *input);
 void replace_argument(char *argument, Command *cmd);
 int is_cmd(Command *info, char *path);
 char **get_environ(Command *info);
-void free_cmd(info_t *info, int all);
+void free_cmd(Command *info, int all);
 
 /* helper functions */
 

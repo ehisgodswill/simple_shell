@@ -20,7 +20,7 @@ void ffree(char **pp)
  * @info: struct address
  * @all: true if freeing all fields
  */
-void free_cmd(info_t *info, int all)
+void free_cmd(Command *info, int all)
 {
 	ffree(info->arguments);
 	info->argv = NULL;

@@ -82,7 +82,7 @@
  *
  * Return: full path of cmd if found or NULL
  */
-char *find_path(Command info, char *pathstr, char *cmd)
+char *find_path(Command *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
 	char *path;
@@ -136,9 +136,9 @@ void fork_cmd(Command *info)
 	}
 	if (child_pid == 0)
 	{
-		if (execve(info->name, info->argv, get_environ(info)) == -1)
+		if (execve(info->name, info->arguments, get_environ(info)) == -1)
 		{
-			free_info(info, 1);
+			free_cmd(info, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
@@ -152,7 +152,7 @@ void fork_cmd(Command *info)
 		{
 			info->status = WEXITSTATUS(info->status);
 			if (info->status == 126)
-				print_error(info, "Permission denied\n");
+				perror("Permission denied\n");
 		}
 	}
 }
@@ -166,21 +166,21 @@ void fork_cmd(Command *info)
 void find_cmd(Command *info)
 {
 	char *path = NULL;
-	int i, k;
 
 	info->arguments[0] = info->name;
 	/* if (info->linecount_flag == 1)
+	int i, k;
 	{
 		info->line_count++;
 		info->linecount_flag = 0;
-	} */
+	} 
 	for (i = 0, k = 0; info->arguments[i]; i++)
-		if (!is_delim(info->arguments[i], " \t\n"))
+		if (!is_delim(info->n[i], " \t\n"))
 			k++;
 	if (!k)
-		return;
+		return;*/
 
-	path = find_path(info, _getenv(info, "PATH="), info->arguments[0]);
+	path = find_path(info, _getenv("PATH"), info->arguments[0]);
 	if (path)
 	{
 		info->name = path;
@@ -191,10 +191,10 @@ void find_cmd(Command *info)
 		if ((isatty(STDIN_FILENO) || _getenv(info, "PATH=")
 			|| info->arguments[0][0] == '/') && is_cmd(info, info->arguments[0]))
 			fork_cmd(info);
-		else if (*(info->arguments) != '\n')
+		else if (*(info->name) != '\n')
 		{
 			info->status = 127;
-			print_error(info, "not found\n");
+			perror("not found\n");
 		}
 	}
 }
