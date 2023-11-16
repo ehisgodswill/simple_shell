@@ -23,8 +23,9 @@ void ffree(char **pp)
 void free_cmd(Command *info, int all)
 {
 	ffree(info->arguments);
-	info->argv = NULL;
-	info->path = NULL;
+	info->arguments = NULL;
+	info->name = NULL;
+	info->input = NULL;
 	if (all)
 	{
 		/* if (!info->cmd_buf)
@@ -36,9 +37,9 @@ void free_cmd(Command *info, int all)
 		if (info->alias)
 			free_list(&(info->alias));
 		_putchar(BUF_FLUSH);
-		bfree((void **)info->cmd_buf); */
+		bfree((void **)info->cmd_buf); 
 		if (info->readfd > 2)
-			close(info->readfd);
+			close(info->readfd);*/
 		ffree(info->environ);
 			info->environ = NULL;
 	}

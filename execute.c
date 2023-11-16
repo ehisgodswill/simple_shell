@@ -188,7 +188,7 @@ void find_cmd(Command *info)
 	}
 	else
 	{
-		if ((isatty(STDIN_FILENO) || _getenv(info, "PATH=")
+		if ((isatty(STDIN_FILENO) || _getenv("PATH")
 			|| info->arguments[0][0] == '/') && is_cmd(info, info->arguments[0]))
 			fork_cmd(info);
 		else if (*(info->name) != '\n')
