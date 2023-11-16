@@ -37,10 +37,10 @@
  * @cmd: pointer to command
  * Return: -1 on failure
  */
-/* int execute_command(Command *cmd)
+int execute_command(Command *cmd)
 {
-	pid_t child_pid;
 	int ret = 0;
+	/* pid_t child_pid;
 
 	errno = 0;
 	if (cmd->name == NULL)
@@ -65,13 +65,14 @@
 		exit(-1);
 	}
 	else
-		wait(&cmd->status);
+		wait(&cmd->status); */
+	find_cmd(cmd);
 	ret = cmd->status;
 	if (ret != 0)
 		ret = -1;
 	return (ret);
 }
- */
+
 
 
 /**
