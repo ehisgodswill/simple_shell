@@ -6,7 +6,7 @@
  * @data: a pointer to the data structure
  * Return: 0 on success or 1 on fail
  */
-int change_dir(sh_t *data)
+int change_dir(data_t *data)
 {
 	char *home;
 
@@ -48,7 +48,7 @@ int change_dir(sh_t *data)
  *
  * Return: 0 succes 1 fail
  */
-int abort_prg(sh_t *data __attribute__((unused)))
+int abort_prg(data_t *data __attribute__((unused)))
 {
 	int code, i = 0;
 
@@ -75,7 +75,7 @@ int abort_prg(sh_t *data __attribute__((unused)))
  *
  * Return: (Success) 0 or 1 fail
  */
-int display_help(sh_t *data)
+int display_help(data_t *data)
 {
 	int fd, fw, rd = 1;
 	char c;
@@ -104,7 +104,7 @@ int display_help(sh_t *data)
  * @data: a pointer to the data structure
  * Return: 0 on success or 1 fail
  */
-int handle_builtin(sh_t *data)
+int handle_builtin(data_t *data)
 {
 	blt_t blt[] = {
 		{"exit", abort_prg},

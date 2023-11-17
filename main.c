@@ -8,7 +8,7 @@
  */
 int main(void)
 {
-	sh_t data;
+	data_t data;
 	int pl;
 
 	_memset((void *)&data, 0, sizeof(data));
@@ -22,7 +22,7 @@ int main(void)
 				PRINT("\n");
 			break;
 		}
-		if (split_line(&data) < 0)
+		if (tokenize(&data) < 0)
 		{
 			free_data(&data);
 			continue;
@@ -56,7 +56,7 @@ int main(void)
  * Return: (Success) a positive number
  * ------- (Fail) a negative number
  */
-int read_line(sh_t *data)
+int read_line(data_t *data)
 {
 	char *csr_ptr, *end_ptr, c;
 	size_t size = BUFSIZE, read_st, length, new_size;
@@ -93,13 +93,13 @@ int read_line(sh_t *data)
 }
 #define DELIMITER " \n\t\r\a\v"
 /**
- * split_line - splits line to tokens
+ * tokenize - splits line to tokens
  * @data: a pointer to the struct of data
  *
  * Return: (Success) a positive number
  * ------- (Fail) a negative number
  */
-int split_line(sh_t *data)
+int tokenize(data_t *data)
 {
 	char *token;
 	size_t size = TOKENSIZE, new_size, i = 0;
@@ -138,7 +138,7 @@ int split_line(sh_t *data)
  * Return: (Success) a positive number
  * ------- (Fail) a negative number
  */
-int parse_line(sh_t *data)
+int parse_line(data_t *data)
 {
 	if (is_path_form(data) > 0)
 		return (SUCCESS);
@@ -159,7 +159,7 @@ int parse_line(sh_t *data)
  * Return: (Success) a positive number
  * ------- (Fail) a negative number
  */
-int process_cmd(sh_t *data)
+int process_cmd(data_t *data)
 {
 	pid_t pid;
 	int status;

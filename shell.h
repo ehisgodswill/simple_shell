@@ -28,7 +28,7 @@ extern char **environ;
 /* Struct */
 
 /**
- * struct sh_data - Global data structure
+ * struct shell_data - Global data structure
  * @line: the line input
  * @args: the arguments token
  * @error_msg: the global path
@@ -40,7 +40,7 @@ extern char **environ;
  * Description: A structure contains all the variables needed to manage
  * the program, memory and accessability
  */
-typedef struct sh_data
+typedef struct shell_data
 {
 	char *line;
 	char **args;
@@ -49,7 +49,7 @@ typedef struct sh_data
 	char *oldpwd;
 	unsigned long int index;
 	char *env;
-} sh_t;
+} data_t;
 /**
  * struct builtin - Manage the builtin functions
  * @cmd: the command line on string form
@@ -60,13 +60,13 @@ typedef struct sh_data
 typedef struct builtin
 {
 	char *cmd;
-	int (*f)(sh_t *data);
+	int (*f)(data_t *data);
 } blt_t;
 /* ----------Process prototype------------*/
-int read_line(sh_t *);
-int split_line(sh_t *);
-int parse_line(sh_t *);
-int process_cmd(sh_t *);
+int read_line(data_t *);
+int tokenize(data_t *);
+int parse_line(data_t *);
+int process_cmd(data_t *);
 
 /* ----------String prototype------------*/
 char *_strdup(char *str);
@@ -82,33 +82,33 @@ char *_strcpy(char *dest, char *source);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *_memset(char *s, char byt, unsigned int n);
 char *_memcpy(char *dest, char *src, unsigned int n);
-int free_data(sh_t *);
+int free_data(data_t *);
 
 /* ----------Tools prototype-------------*/
 void *fill_an_array(void *a, int el, unsigned int len);
 void signal_handler(int signo);
 char *_getenv(char *path_name);
-void index_cmd(sh_t *data);
+void index_cmd(data_t *data);
 void array_rev(char *arr, int len);
 
 /* ----------More tools prototype--------*/
 char *_itoa(unsigned int n);
 int intlen(int num);
 int _atoi(char *c);
-int print_error(sh_t *data);
-int write_history(sh_t *data);
+int print_error(data_t *data);
+int write_history(data_t *data);
 int _isalpha(int c);
 
 /* -------------Builtins-----------------*/
-int abort_prg(sh_t *data);
-int change_dir(sh_t *data);
-int display_help(sh_t *data);
-int handle_builtin(sh_t *data);
-int check_builtin(sh_t *data);
+int abort_prg(data_t *data);
+int change_dir(data_t *data);
+int display_help(data_t *data);
+int handle_builtin(data_t *data);
+int check_builtin(data_t *data);
 
 /* -------------Parse-----------------*/
-int is_path_form(sh_t *data);
-void is_short_form(sh_t *data);
-int is_builtin(sh_t *data);
+int is_path_form(data_t *data);
+void is_short_form(data_t *data);
+int is_builtin(data_t *data);
 
 #endif /* SHELL_H */
