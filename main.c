@@ -9,7 +9,7 @@
  */
 int main(int argc, char **argv)
 {
-	data_t info[] = { DATA_INIT };
+	data_t data[] = { DATA_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -35,10 +35,10 @@ int main(int argc, char **argv)
 			}
 			return (EXIT_FAILURE);
 		}
-		info->readfd = fd;
+		data->readfd = fd;
 	}
-	populate_env_list(info);
-	read_history(info);
-	hsh(info, argv);
+	populate_env_list(data);
+	read_history(data);
+	hsh(data, argv);
 	return (EXIT_SUCCESS);
 }
