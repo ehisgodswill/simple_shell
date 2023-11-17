@@ -15,7 +15,7 @@ int hsh(data_t *data, char **av)
 	while (r != -1 && builtin_ret != -2)
 	{
 		cleardata(data);
-		if (interactive(data))
+		if (is_interactive(data))
 			_puts("$ ");
 		_eputchar(BUFFLUSH);
 		r = get_input(data);
@@ -26,13 +26,13 @@ int hsh(data_t *data, char **av)
 			if (builtin_ret == -1)
 				find_cmd(data);
 		}
-		else if (interactive(data))
+		else if (is_interactive(data))
 			_putchar('\n');
 		freedata(data, 0);
 	}
 	write_history(data);
 	freedata(data, 1);
-	if (!interactive(data) && data->status)
+	if (!is_interactive(data) && data->status)
 		exit(data->status);
 	if (builtin_ret == -2)
 	{
@@ -95,7 +95,7 @@ void find_cmd(data_t *data)
 		data->linecount_flag = 0;
 	}
 	for (i = 0, k = 0; data->arg[i]; i++)
-		if (!is_delim(data->arg[i], " \t\n"))
+		if (!isdelim(data->arg[i], " \t\n"))
 			k++;
 	if (!k)
 		return;
@@ -108,7 +108,7 @@ void find_cmd(data_t *data)
 	}
 	else
 	{
-		if ((interactive(data) || _getenv(data, "PATH=")
+		if ((is_interactive(data) || _getenv(data, "PATH=")
 			|| data->argv[0][0] == '/') && is_cmd(data, data->argv[0]))
 			fork_cmd(data);
 		else if (*(data->arg) != '\n')

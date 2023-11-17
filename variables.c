@@ -6,7 +6,7 @@
  * @buffer: the characters buffer
  * @pos: address of current position in buffer
  *
- * Return: 1 if it is a chain delimeter, 
+ * Return: 1 if it is a chain delimeter,
  * or 0 otherwise
  */
 int ischain(data_t *data, char *buffer, size_t *pos)
@@ -25,9 +25,9 @@ int ischain(data_t *data, char *buffer, size_t *pos)
 		j++;
 		data->cmd_buf_type = CMD_AND;
 	}
-	else if (buffer[j] == ';') /* found end of this command */
+	else if (buffer[j] == ';')
 	{
-		buffer[j] = 0; /* replace semicolon with null */
+		buffer[j] = 0; /* replaces semicolon with null */
 		data->cmd_buf_type = CMD_CHAIN;
 	}
 	else

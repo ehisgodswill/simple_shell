@@ -24,7 +24,7 @@ void setdata(data_t *data, char **av)
 	data->fname = av[0];
 	if (data->arg)
 	{
-		data->argv = strtow(data->arg, " \t");
+		data->argv = strtowarr(data->arg, " \t");
 		if (!data->argv)
 		{
 
