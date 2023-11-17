@@ -1,91 +1,79 @@
 #include "shell.h"
 
 /**
- * _realloc - reallocates memory block
- * @ptr: pointer to the previous memory
- * @old_size: the old size
- * @new_size: the new size
+ * bfree - frees a pointer and NULLs the address
+ * @ptr: address of the pointer to free
  *
- * Return: a pointer to the newly allocated memory
+ * Return: 1 if freed, otherwise 0.
+ */
+int bfree(void **ptr)
+{
+	if (ptr && *ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+		return (1);
+	}
+	return (0);
+}
+
+/**
+ **_memset - fills memory with a constant byte
+ *@s: the pointer to the memory area
+ *@b: the byte to fill *s with
+ *@n: the amount of bytes to be filled
+ *Return: (s) a pointer to the memory area s
+ */
+char *_memset(char *s, char b, unsigned int n)
+{
+	unsigned int i;
+
+	for (i = 0; i < n; i++)
+		s[i] = b;
+	return (s);
+}
+
+/**
+ * ffree - frees a string of strings
+ * @pp: string of strings
+ */
+void ffree(char **pp)
+{
+	char **a = pp;
+
+	if (!pp)
+		return;
+	while (*pp)
+		free(*pp++);
+	free(a);
+}
+
+/**
+ * _realloc - reallocates a block of memory
+ * @ptr: pointer to previous malloc'ated block
+ * @old_size: byte size of previous block
+ * @new_size: byte size of new block
+ *
+ * Return: pointer to da ol'block nameen.
  */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	void *result;
+	char *p;
 
+	if (!ptr)
+		return (malloc(new_size));
+	if (!new_size)
+		return (free(ptr), NULL);
 	if (new_size == old_size)
 		return (ptr);
-	if (new_size == 0 && ptr)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	result = malloc(new_size);
-	if (result == NULL)
-		return (NULL);
-	if (ptr == NULL)
-	{
-		fill_an_array(result, '\0', new_size);
-		free(ptr);
-	}
-	else
-	{
-		_memcpy(result, ptr, old_size);
-		free(ptr);
-	}
-	return (result);
-}
-/**
- * _memset - fills a memory with constant byte
- * @s: pointer to memory area
- * @n: first n bytes
- * @byt: constant byte
- *
- * Return: A pointer to a character
- */
-char *_memset(char *s, char byt, unsigned int n)
-{
-	unsigned int i;
 
-	for (i = 0; i < n; i++)
-	{
-		s[i] = byt;
-	}
-	return (s);
-}
-/**
- * free_data - frees data
- * @data: the data structure
- *
- * Return: (Success) positive number
- * ------- (Fail) negative number
- */
-int free_data(sh_t *data)
-{
-	free(data->line);
-	data->line = NULL;
-	free(data->args);
-	data->args = NULL;
-	free(data->cmd);
-	data->cmd = NULL;
-	free(data->error_msg);
-	data->error_msg = NULL;
-	return (0);
-}
-/**
- * _memcpy - cpies memory area
- * @dest: Destination memory area
- * @src: Source memory area
- * @n: Amount of memory byte
- *
- * Return: A pointer to dest
- */
-char *_memcpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int i;
+	p = malloc(new_size);
+	if (!p)
+		return (NULL);
 
-	for (i = 0; i < n; i++)
-	{
-		dest[i] = src[i];
-	}
-	return (dest);
+	old_size = old_size < new_size ? old_size : new_size;
+	while (old_size--)
+		p[old_size] = ((char *)ptr)[old_size];
+	free(ptr);
+	return (p);
 }
