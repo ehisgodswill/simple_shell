@@ -1,154 +1,148 @@
 #include "shell.h"
 
 /**
- * is_chain - tests if the characters in buffer is a chain delimeter
- * @data: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
+ * ischain - tests if the characters in buffer is a chain delimeter
+ * @data: data structure
+ * @buffer: the characters buffer
+ * @pos: address of current position in buffer
  *
- * Return: 1 if chain delimeter, 0 otherwise
+ * Return: 1 if it is a chain delimeter, 
+ * or 0 otherwise
  */
-int is_chain(data_t *data, char *buf, size_t *p)
+int ischain(data_t *data, char *buffer, size_t *pos)
 {
-	size_t j = *p;
+	size_t j = *pos;
 
-	if (buf[j] == '|' && buf[j + 1] == '|')
+	if (buffer[j] == '|' && buffer[j + 1] == '|')
 	{
-		buf[j] = 0;
+		buffer[j] = 0;
 		j++;
 		data->cmd_buf_type = CMD_OR;
 	}
-	else if (buf[j] == '&' && buf[j + 1] == '&')
+	else if (buffer[j] == '&' && buffer[j + 1] == '&')
 	{
-		buf[j] = 0;
+		buffer[j] = 0;
 		j++;
 		data->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[j] == ';') /* found end of this command */
+	else if (buffer[j] == ';') /* found end of this command */
 	{
-		buf[j] = 0; /* replace semicolon with null */
+		buffer[j] = 0; /* replace semicolon with null */
 		data->cmd_buf_type = CMD_CHAIN;
 	}
 	else
-		return (0);
-	*p = j;
-	return (1);
+		return (NEUTRAL);
+	*pos = j;
+	return (SUCCESSFUL);
 }
 
 /**
- * check_chain - checks we should continue chaining based on last status
- * @data: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
- * @i: starting position in buf
- * @len: length of buf
+ * continue_chaining - checks we should continue chaining based on last status
+ * @data: the data struct
+ * @buffer: the character buffer
+ * @pos: address of current position in buffer
+ * @x: starting position in buffer
+ * @len: total length of the buffer
  *
  * Return: Void
  */
-void check_chain(data_t *data, char *buf, size_t *p, size_t i, size_t len)
+void continue_chaining(data_t *data, char *buffer, size_t *pos, size_t x, size_t len)
 {
-	size_t j = *p;
+	size_t p = *pos;
 
 	if (data->cmd_buf_type == CMD_AND)
-	{
 		if (data->status)
 		{
-			buf[i] = 0;
-			j = len;
+			p = len;
+			buffer[x] = 0;
 		}
-	}
 	if (data->cmd_buf_type == CMD_OR)
-	{
 		if (!data->status)
 		{
-			buf[i] = 0;
-			j = len;
+			buffer[x] = 0;
+			p = len;
 		}
-	}
 
-	*p = j;
+	*pos = p;
 }
 
 /**
- * replace_alias - replaces an aliases in the tokenized string
+ * replace_alias - replaces an alias in a tokenized string
  * @data: the parameter struct
  *
  * Return: 1 if replaced, 0 otherwise
  */
 int replace_alias(data_t *data)
 {
-	int i;
+	char *pos;
+	int x;
 	list_t *node;
-	char *p;
 
-	for (i = 0; i < 10; i++)
+	for (x = 0; x < 10; x++)
 	{
 		node = node_starts_with(data->alias, data->argv[0], '=');
 		if (!node)
-			return (0);
+			return (NEUTRAL);
 		free(data->argv[0]);
-		p = _strchr(node->str, '=');
-		if (!p)
-			return (0);
-		p = _strdup(p + 1);
-		if (!p)
-			return (0);
-		data->argv[0] = p;
+		pos = _strchr(node->str, '=');
+		if (!pos)
+			return (NEUTRAL);
+		pos = _strdup(pos + 1);
+		if (!pos)
+			return (NEUTRAL);
+		data->argv[0] = pos;
 	}
-	return (1);
+	return (SUCCESSFUL);
 }
 
 /**
- * replace_vars - replaces vars in the tokenized string
+ * replace_variable - replaces variables in a tokenized string
  * @data: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
  */
-int replace_vars(data_t *data)
+void replace_variable(data_t *data)
 {
-	int i = 0;
+	int x = 0;
 	list_t *node;
 
-	for (i = 0; data->argv[i]; i++)
+	for (x = 0; data->argv[x]; x++)
 	{
-		if (data->argv[i][0] != '$' || !data->argv[i][1])
+		if (data->argv[x][0] != '$' || !data->argv[x][1])
 			continue;
 
-		if (!_strcmp(data->argv[i], "$?"))
+		if (!_strcmp(data->argv[x], "$?"))
 		{
-			replace_string(&(data->argv[i]),
+			str_replace(&(data->argv[x]),
 				_strdup(convert_number(data->status, 10, 0)));
 			continue;
 		}
-		if (!_strcmp(data->argv[i], "$$"))
+		if (!_strcmp(data->argv[x], "$$"))
 		{
-			replace_string(&(data->argv[i]),
+			str_replace(&(data->argv[x]),
 				_strdup(convert_number(getpid(), 10, 0)));
 			continue;
 		}
-		node = node_starts_with(data->env, &data->argv[i][1], '=');
+		node = node_starts_with(data->env, &data->argv[x][1], '=');
 		if (node)
 		{
-			replace_string(&(data->argv[i]),
+			str_replace(&(data->argv[x]),
 				_strdup(_strchr(node->str, '=') + 1));
 			continue;
 		}
-		replace_string(&data->argv[i], _strdup(""));
-
+		str_replace(&data->argv[x], _strdup(""));
 	}
-	return (0);
+	return;
 }
 
 /**
- * replace_string - replaces string
- * @old: address of old string
- * @new: new string
+ * str_replace - replaces string
+ * @old: address of the old string
+ * @new: address of the new string
  *
- * Return: 1 if replaced, 0 otherwise
+ * Return: 1 if replaced, or 0 otherwise
  */
-int replace_string(char **old, char *new)
+int str_replace(char **old, char *new)
 {
 	free(*old);
 	*old = new;
-	return (1);
+	return (SUCCESSFUL);
 }

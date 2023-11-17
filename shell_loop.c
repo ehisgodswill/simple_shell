@@ -14,24 +14,24 @@ int hsh(data_t *data, char **av)
 
 	while (r != -1 && builtin_ret != -2)
 	{
-		clear_info(data);
+		cleardata(data);
 		if (interactive(data))
 			_puts("$ ");
 		_eputchar(BUFFLUSH);
 		r = get_input(data);
 		if (r != -1)
 		{
-			set_info(data, av);
+			setdata(data, av);
 			builtin_ret = find_builtin(data);
 			if (builtin_ret == -1)
 				find_cmd(data);
 		}
 		else if (interactive(data))
 			_putchar('\n');
-		free_info(data, 0);
+		freedata(data, 0);
 	}
 	write_history(data);
-	free_info(data, 1);
+	freedata(data, 1);
 	if (!interactive(data) && data->status)
 		exit(data->status);
 	if (builtin_ret == -2)
@@ -140,7 +140,7 @@ void fork_cmd(data_t *data)
 	{
 		if (execve(data->path, data->argv, get_environ(data)) == -1)
 		{
-			free_info(data, 1);
+			freedata(data, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);

@@ -9,7 +9,7 @@
 int _myenv(data_t *data)
 {
 	print_list_str(data->env);
-	return (0);
+	return (NEUTRAL);
 }
 
 /**
@@ -46,11 +46,11 @@ int _mysetenv(data_t *data)
 	if (data->argc != 3)
 	{
 		_eputs("Incorrect number of arguements\n");
-		return (1);
+		return (SUCCESSFUL);
 	}
 	if (_setenv(data, data->argv[1], data->argv[2]))
-		return (0);
-	return (1);
+		return (NEUTRAL);
+	return (SUCCESSFUL);
 }
 
 /**
@@ -66,12 +66,12 @@ int _myunsetenv(data_t *data)
 	if (data->argc == 1)
 	{
 		_eputs("Too few arguements.\n");
-		return (1);
+		return (SUCCESSFUL);
 	}
 	for (i = 1; i <= data->argc; i++)
 		_unsetenv(data, data->argv[i]);
 
-	return (0);
+	return (NEUTRAL);
 }
 
 /**
@@ -88,5 +88,5 @@ int populate_env_list(data_t *data)
 	for (i = 0; environ[i]; i++)
 		add_node_end(&node, environ[i], 0);
 	data->env = node;
-	return (0);
+	return (NEUTRAL);
 }

@@ -60,16 +60,16 @@ ssize_t get_input(data_t *data)
 	_putchar(BUFFLUSH);
 	r = input_buf(data, &buf, &len);
 	if (r == -1) /* EOF */
-		return (-1);
+		return (FAILURE);
 	if (len)	/* we have commands left in the chain buffer */
 	{
 		j = i; /* init new iterator to current buf position */
 		p = buf + i; /* get pointer for return */
 
-		check_chain(data, buf, &j, i, len);
+		continue_chaining(data, buf, &j, i, len);
 		while (j < len) /* iterate to semicolon or end */
 		{
-			if (is_chain(data, buf, &j))
+			if (ischain(data, buf, &j))
 				break;
 			j++;
 		}
@@ -102,7 +102,7 @@ ssize_t read_buf(data_t *data, char *buf, size_t *i)
 	ssize_t r = 0;
 
 	if (*i)
-		return (0);
+		return (NEUTRAL);
 	r = read(data->readfd, buf, READ_BUFSIZE);
 	if (r >= 0)
 		*i = r;
@@ -133,7 +133,7 @@ int _getline(data_t *data, char **ptr, size_t *length)
 
 	r = read_buf(data, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
-		return (-1);
+		return (FAILURE);
 
 	c = _strchr(buf + i, '\n');
 	k = c ? 1 + (unsigned int)(c - buf) : len;

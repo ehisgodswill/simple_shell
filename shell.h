@@ -17,6 +17,10 @@
 #define WRITE_BUFSIZE 1024
 #define BUFFLUSH -1
 
+/* Command output */
+#define SUCCESSFUL 1
+#define NEUTRAL 0
+#define FAILURE -1
 /* for command chaining */
 #define CMD_NORMAL	0
 #define CMD_OR		1
@@ -187,9 +191,9 @@ int _getline(data_t *, char **, size_t *);
 void sigintHandler(int);
 
 /* toem_getinfo.c */
-void clear_info(data_t *);
-void set_info(data_t *, char **);
-void free_info(data_t *, int);
+void cleardata(data_t *);
+void setdata(data_t *, char **);
+void freedata(data_t *, int);
 
 /* toem_environ.c */
 char *_getenv(data_t *, const char *);
@@ -225,10 +229,10 @@ list_t *node_starts_with(list_t *, char *, char);
 ssize_t get_node_index(list_t *, list_t *);
 
 /* toem_vars.c */
-int is_chain(data_t *, char *, size_t *);
-void check_chain(data_t *, char *, size_t *, size_t, size_t);
+int ischain(data_t *, char *, size_t *);
+void continue_chaining(data_t *, char *, size_t *, size_t, size_t);
 int replace_alias(data_t *);
-int replace_vars(data_t *);
-int replace_string(char **, char *);
+void replace_variable(data_t *);
+int str_replace(char **, char *);
 
 #endif

@@ -13,13 +13,13 @@ int is_cmd(data_t *data, char *path)
 
 	(void)data;
 	if (!path || stat(path, &st))
-		return (0);
+		return (NEUTRAL);
 
 	if (st.st_mode & S_IFREG)
 	{
-		return (1);
+		return (SUCCESSFUL);
 	}
-	return (0);
+	return (NEUTRAL);
 }
 
 /**

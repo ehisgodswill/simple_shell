@@ -11,7 +11,7 @@ int _strlen(char *s)
 	int i = 0;
 
 	if (!s)
-		return (0);
+		return (NEUTRAL);
 
 	while (*s++)
 		i++;
@@ -35,7 +35,7 @@ int _strcmp(char *s1, char *s2)
 		s2++;
 	}
 	if (*s1 == *s2)
-		return (0);
+		return (NEUTRAL);
 	else
 		return (*s1 < *s2 ? -1 : 1);
 }

@@ -31,7 +31,7 @@ int _unsetenv(data_t *data, char *var)
 	char *p;
 
 	if (!node || !var)
-		return (0);
+		return (NEUTRAL);
 
 	while (node)
 	{
@@ -65,11 +65,11 @@ int _setenv(data_t *data, char *var, char *value)
 	char *p;
 
 	if (!var || !value)
-		return (0);
+		return (NEUTRAL);
 
 	buf = malloc(_strlen(var) + _strlen(value) + 2);
 	if (!buf)
-		return (1);
+		return (SUCCESSFUL);
 	_strcpy(buf, var);
 	_strcat(buf, "=");
 	_strcat(buf, value);
@@ -82,12 +82,12 @@ int _setenv(data_t *data, char *var, char *value)
 			free(node->str);
 			node->str = buf;
 			data->env_changed = 1;
-			return (0);
+			return (NEUTRAL);
 		}
 		node = node->next;
 	}
 	add_node_end(&(data->env), buf, 0);
 	free(buf);
 	data->env_changed = 1;
-	return (0);
+	return (NEUTRAL);
 }

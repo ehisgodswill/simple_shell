@@ -83,5 +83,5 @@ int _putchar(char c)
 	}
 	if (c != BUFFLUSH)
 		buf[i++] = c;
-	return (1);
+	return (SUCCESSFUL);
 }

@@ -10,7 +10,7 @@
 int _myhistory(data_t *data)
 {
 	print_list(data->history);
-	return (0);
+	return (NEUTRAL);
 }
 
 /**
@@ -27,7 +27,7 @@ int unset_alias(data_t *data, char *str)
 
 	p = _strchr(str, '=');
 	if (!p)
-		return (1);
+		return (SUCCESSFUL);
 	c = *p;
 	*p = 0;
 	ret = delete_node_at_index(&(data->alias),
@@ -49,7 +49,7 @@ int set_alias(data_t *data, char *str)
 
 	p = _strchr(str, '=');
 	if (!p)
-		return (1);
+		return (SUCCESSFUL);
 	if (!*++p)
 		return (unset_alias(data, str));
 
@@ -75,9 +75,9 @@ int print_alias(list_t *node)
 		_putchar('\'');
 		_puts(p + 1);
 		_puts("'\n");
-		return (0);
+		return (NEUTRAL);
 	}
-	return (1);
+	return (SUCCESSFUL);
 }
 
 /**
@@ -100,7 +100,7 @@ int _myalias(data_t *data)
 			print_alias(node);
 			node = node->next;
 		}
-		return (0);
+		return (NEUTRAL);
 	}
 	for (i = 1; data->argv[i]; i++)
 	{
@@ -111,5 +111,5 @@ int _myalias(data_t *data)
 			print_alias(node_starts_with(data->alias, data->argv[i], '='));
 	}
 
-	return (0);
+	return (NEUTRAL);
 }

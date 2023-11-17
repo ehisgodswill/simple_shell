@@ -20,7 +20,7 @@ int _myexit(data_t *data)
 			print_error(data, "Illegal number: ");
 			_eputs(data->argv[1]);
 			_eputchar('\n');
-			return (1);
+			return (SUCCESSFUL);
 		}
 		data->err_num = _erratoi(data->argv[1]);
 		return (-2);
@@ -58,7 +58,7 @@ int _mycd(data_t *data)
 		{
 			_puts(s);
 			_putchar('\n');
-			return (1);
+			return (SUCCESSFUL);
 		}
 		_puts(_getenv(data, "OLDPWD=")), _putchar('\n');
 		chdir_ret = /* TODO: what should this be? */
@@ -76,7 +76,7 @@ int _mycd(data_t *data)
 		_setenv(data, "OLDPWD", _getenv(data, "PWD="));
 		_setenv(data, "PWD", getcwd(buffer, 1024));
 	}
-	return (0);
+	return (NEUTRAL);
 }
 
 /**
@@ -93,5 +93,5 @@ int _myhelp(data_t *data)
 	_puts("help call works. Function not yet implemented \n");
 	if (0)
 		_puts(*arg_array); /* temp att_unused workaround */
-	return (0);
+	return (NEUTRAL);
 }

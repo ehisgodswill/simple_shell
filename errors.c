@@ -38,7 +38,7 @@ int _eputchar(char c)
 	}
 	if (c != BUFFLUSH)
 		buf[i++] = c;
-	return (1);
+	return (SUCCESSFUL);
 }
 
 /**
@@ -61,7 +61,7 @@ int _putfd(char c, int fd)
 	}
 	if (c != BUFFLUSH)
 		buf[i++] = c;
-	return (1);
+	return (SUCCESSFUL);
 }
 
 /**
@@ -76,7 +76,7 @@ int _putsfd(char *str, int fd)
 	int i = 0;
 
 	if (!str)
-		return (0);
+		return (NEUTRAL);
 	while (*str)
 	{
 		i += _putfd(*str++, fd);

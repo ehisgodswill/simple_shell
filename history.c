@@ -37,12 +37,12 @@ int write_history(data_t *data)
 	list_t *node = NULL;
 
 	if (!filename)
-		return (-1);
+		return (FAILURE);
 
 	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	free(filename);
 	if (fd == -1)
-		return (-1);
+		return (FAILURE);
 	for (node = data->history; node; node = node->next)
 	{
 		_putsfd(node->str, fd);
@@ -50,7 +50,7 @@ int write_history(data_t *data)
 	}
 	_putfd(BUFFLUSH, fd);
 	close(fd);
-	return (1);
+	return (SUCCESSFUL);
 }
 
 /**
@@ -67,19 +67,19 @@ int read_history(data_t *data)
 	char *buf = NULL, *filename = get_history_file(data);
 
 	if (!filename)
-		return (0);
+		return (NEUTRAL);
 
 	fd = open(filename, O_RDONLY);
 	free(filename);
 	if (fd == -1)
-		return (0);
+		return (NEUTRAL);
 	if (!fstat(fd, &st))
 		fsize = st.st_size;
 	if (fsize < 2)
-		return (0);
+		return (NEUTRAL);
 	buf = malloc(sizeof(char) * (fsize + 1));
 	if (!buf)
-		return (0);
+		return (NEUTRAL);
 	rdlen = read(fd, buf, fsize);
 	buf[fsize] = 0;
 	if (rdlen <= 0)
@@ -120,7 +120,7 @@ int build_history_list(data_t *data, char *buf, int linecount)
 
 	if (!data->history)
 		data->history = node;
-	return (0);
+	return (NEUTRAL);
 }
 
 /**
