@@ -22,17 +22,17 @@ int _myhistory(data_t *data)
  */
 int unset_alias(data_t *data, char *str)
 {
-	char *p, c;
+	char *par, par1;
 	int ret;
 
-	p = _strchr(str, '=');
-	if (!p)
+	par = _strchr(str, '=');
+	if (!par)
 		return (SUCCESSFUL);
-	c = *p;
-	*p = 0;
+	par1 = *par;
+	*par = 0;
 	ret = delete_node_at_index(&(data->alias),
 		get_node_index(data->alias, node_starts_with(data->alias, str, -1)));
-	*p = c;
+	*par = par1;
 	return (ret);
 }
 
@@ -45,12 +45,12 @@ int unset_alias(data_t *data, char *str)
  */
 int set_alias(data_t *data, char *str)
 {
-	char *p;
+	char *par;
 
-	p = _strchr(str, '=');
-	if (!p)
+	par = _strchr(str, '=');
+	if (!par)
 		return (SUCCESSFUL);
-	if (!*++p)
+	if (!*++par)
 		return (unset_alias(data, str));
 
 	unset_alias(data, str);
@@ -65,15 +65,15 @@ int set_alias(data_t *data, char *str)
  */
 int print_alias(list_t *node)
 {
-	char *p = NULL, *a = NULL;
+	char *prt = NULL, *a = NULL;
 
 	if (node)
 	{
-		p = _strchr(node->str, '=');
-		for (a = node->str; a <= p; a++)
+		prt = _strchr(node->str, '=');
+		for (a = node->str; a <= prt; a++)
 			_putchar(*a);
 		_putchar('\'');
-		_puts(p + 1);
+		_puts(prt + 1);
 		_puts("'\n");
 		return (NEUTRAL);
 	}
