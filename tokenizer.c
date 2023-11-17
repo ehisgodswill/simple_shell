@@ -16,7 +16,8 @@ char *starts_with(const char *haystack, const char *needle)
 }
 
 /**
- * strtowarr - splits a string into array of words. Repeat delimiters are ignored
+ * strtowarr - splits a string into array of words.
+ * Repeat delimiters are ignored
  * @str: theinput string
  * @delim: thedelimeter string
  * Return: a pointer to an array of strings, or NULL if failure

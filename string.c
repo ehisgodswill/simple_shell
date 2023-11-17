@@ -51,7 +51,8 @@ char *_strncat(char *dest, char *src, int n)
  * @str1: the first string
  * @str2: the second string
  *
- * Return: negative if str1 < str2, positive if str1 > str2, zero if str1 == str2
+ * Return: negative if str1 < str2, positive if str1 > str2,
+ * zero if str1 == str2
  */
 int _strcmp(char *str1, char *str2)
 {

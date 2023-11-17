@@ -74,7 +74,7 @@ int _putchar(char c)
 		w = write(1, buf, i);
 		i = 0;
 	}
-	if (w = FAILURE)
+	if (w == FAILURE)
 		return (FAILURE);
 	if (c != BUFFLUSH)
 		buf[i++] = c;

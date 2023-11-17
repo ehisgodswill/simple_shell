@@ -46,7 +46,8 @@ int ischain(data_t *data, char *buffer, size_t *pos)
  *
  * Return: Void
  */
-void continue_chaining(data_t *data, char *buffer, size_t *pos, size_t x, size_t len)
+void continue_chaining(data_t *data, char *buffer, size_t *pos, size_t x,
+	size_t len)
 {
 	size_t p = *pos;
 
@@ -130,7 +131,6 @@ void replace_variable(data_t *data)
 		}
 		str_replace(&data->argv[x], _strdup(""));
 	}
-	return;
 }
 
 /**
