@@ -1,94 +1,65 @@
 #include "shell.h"
 
 /**
- * **strtow - splits a string into words. Repeat delimiters are ignored
- * @str: the input string
- * @d: the delimeter string
- * Return: a pointer to an array of strings, or NULL on failure
+ * starts_with - checks if needle starts with haystack
+ * @haystack: string to search
+ * @needle: the substring to find
+ *
+ * Return: address of next char of haystack or NULL
  */
-
-char **strtow(char *str, char *d)
+char *starts_with(const char *haystack, const char *needle)
 {
-	int i, j, k, m, numwords = 0;
-	char **s;
-
-	if (str == NULL || str[0] == 0)
-		return (NULL);
-	if (!d)
-		d = " ";
-	for (i = 0; str[i] != '\0'; i++)
-		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
-			numwords++;
-
-	if (numwords == 0)
-		return (NULL);
-	s = malloc((1 + numwords) * sizeof(char *));
-	if (!s)
-		return (NULL);
-	for (i = 0, j = 0; j < numwords; j++)
-	{
-		while (is_delim(str[i], d))
-			i++;
-		k = 0;
-		while (!is_delim(str[i + k], d) && str[i + k])
-			k++;
-		s[j] = malloc((k + 1) * sizeof(char));
-		if (!s[j])
-		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-			free(s);
+	while (*needle)
+		if (*needle++ != *haystack++)
 			return (NULL);
-		}
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-		s[j][m] = 0;
-	}
-	s[j] = NULL;
-	return (s);
+	return ((char *)haystack);
 }
 
 /**
- * **strtow2 - splits a string into words
- * @str: the input string
- * @d: the delimeter
- * Return: a pointer to an array of strings, or NULL on failure
+ * strtowarr - splits a string into array of words.
+ * Repeat delimiters are ignored
+ * @str: theinput string
+ * @delim: thedelimeter string
+ * Return: a pointer to an array of strings, or NULL if failure
  */
-char **strtow2(char *str, char d)
-{
-	int i, j, k, m, numwords = 0;
-	char **s;
 
-	if (str == NULL || str[0] == 0)
+char **strtowarr(char *str, char *delim)
+{
+	int i, j, q, r, numofwords = 0;
+	char **str_arr;
+
+	if (*str == '\0' || str == NULL)
 		return (NULL);
+	if (!delim)
+		delim = " ";
 	for (i = 0; str[i] != '\0'; i++)
-		if ((str[i] != d && str[i + 1] == d) ||
-		    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
-			numwords++;
-	if (numwords == 0)
+		if (!isdelim(str[i], delim) && (isdelim(str[i + 1], delim) || !str[i + 1]))
+			numofwords++;
+
+	if (numofwords == 0)
 		return (NULL);
-	s = malloc((1 + numwords) * sizeof(char *));
-	if (!s)
+	str_arr = malloc(sizeof(char *) * (numofwords + 1));
+	if (!str_arr)
 		return (NULL);
-	for (i = 0, j = 0; j < numwords; j++)
+	for (i = 0, j = 0; j < numofwords; j++)
 	{
-		while (str[i] == d && str[i] != d)
+		while (isdelim(str[i], delim))
 			i++;
-		k = 0;
-		while (str[i + k] != d && str[i + k] && str[i + k] != d)
-			k++;
-		s[j] = malloc((k + 1) * sizeof(char));
-		if (!s[j])
+		q = 0;
+		while (!isdelim(str[i + q], delim) && str[i + q])
+			q++;
+		str_arr[j] = malloc((q + 1) * sizeof(char));
+		if (!str_arr[j])
 		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-			free(s);
+			for (q = 0; q < j; q++)
+				free(str_arr[q]);
+			free(str_arr);
 			return (NULL);
 		}
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
-		s[j][m] = 0;
+		for (r = 0; r < q; r++)
+			str_arr[j][r] = str[i++];
+		str_arr[j][r] = 0;
 	}
-	s[j] = NULL;
-	return (s);
+	str_arr[j] = NULL;
+	return (str_arr);
 }

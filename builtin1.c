@@ -3,58 +3,58 @@
 /**
  * _myhistory - displays the history list, one command by line, preceded
  *              with line numbers, starting at 0.
- * @info: Structure containing potential arguments. Used to maintain
+ * @data: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
  *  Return: Always 0
  */
-int _myhistory(info_t *info)
+int _myhistory(data_t *data)
 {
-	print_list(info->history);
-	return (0);
+	print_list(data->history);
+	return (NEUTRAL);
 }
 
 /**
  * unset_alias - sets alias to string
- * @info: parameter struct
+ * @data: parameter struct
  * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int unset_alias(info_t *info, char *str)
+int unset_alias(data_t *data, char *str)
 {
 	char *p, c;
 	int ret;
 
 	p = _strchr(str, '=');
 	if (!p)
-		return (1);
+		return (SUCCESSFUL);
 	c = *p;
 	*p = 0;
-	ret = delete_node_at_index(&(info->alias),
-		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
+	ret = delete_node_at_index(&(data->alias),
+		get_node_index(data->alias, node_starts_with(data->alias, str, -1)));
 	*p = c;
 	return (ret);
 }
 
 /**
  * set_alias - sets alias to string
- * @info: parameter struct
+ * @data: parameter struct
  * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int set_alias(info_t *info, char *str)
+int set_alias(data_t *data, char *str)
 {
 	char *p;
 
 	p = _strchr(str, '=');
 	if (!p)
-		return (1);
+		return (SUCCESSFUL);
 	if (!*++p)
-		return (unset_alias(info, str));
+		return (unset_alias(data, str));
 
-	unset_alias(info, str);
-	return (add_node_end(&(info->alias), str, 0) == NULL);
+	unset_alias(data, str);
+	return (add_node_end(&(data->alias), str, 0) == NULL);
 }
 
 /**
@@ -75,41 +75,41 @@ int print_alias(list_t *node)
 		_putchar('\'');
 		_puts(p + 1);
 		_puts("'\n");
-		return (0);
+		return (NEUTRAL);
 	}
-	return (1);
+	return (SUCCESSFUL);
 }
 
 /**
  * _myalias - mimics the alias builtin (man alias)
- * @info: Structure containing potential arguments. Used to maintain
+ * @data: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0
  */
-int _myalias(info_t *info)
+int _myalias(data_t *data)
 {
 	int i = 0;
 	char *p = NULL;
 	list_t *node = NULL;
 
-	if (info->argc == 1)
+	if (data->argc == 1)
 	{
-		node = info->alias;
+		node = data->alias;
 		while (node)
 		{
 			print_alias(node);
 			node = node->next;
 		}
-		return (0);
+		return (NEUTRAL);
 	}
-	for (i = 1; info->argv[i]; i++)
+	for (i = 1; data->argv[i]; i++)
 	{
-		p = _strchr(info->argv[i], '=');
+		p = _strchr(data->argv[i], '=');
 		if (p)
-			set_alias(info, info->argv[i]);
+			set_alias(data, data->argv[i]);
 		else
-			print_alias(node_starts_with(info->alias, info->argv[i], '='));
+			print_alias(node_starts_with(data->alias, data->argv[i], '='));
 	}
 
-	return (0);
+	return (NEUTRAL);
 }

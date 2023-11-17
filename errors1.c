@@ -20,28 +20,28 @@ int _erratoi(char *s)
 			result *= 10;
 			result += (s[i] - '0');
 			if (result > INT_MAX)
-				return (-1);
+				return (FAILURE);
 		}
 		else
-			return (-1);
+			return (FAILURE);
 	}
 	return (result);
 }
 
 /**
  * print_error - prints an error message
- * @info: the parameter & return info struct
+ * @data: the parameter & return data struct
  * @estr: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise
  *        -1 on error
  */
-void print_error(info_t *info, char *estr)
+void print_error(data_t *data, char *estr)
 {
-	_eputs(info->fname);
+	_eputs(data->fname);
 	_eputs(": ");
-	print_d(info->line_count, STDERR_FILENO);
+	print_d(data->line_count, STDERR_FILENO);
 	_eputs(": ");
-	_eputs(info->argv[0]);
+	_eputs(data->argv[0]);
 	_eputs(": ");
 	_eputs(estr);
 }

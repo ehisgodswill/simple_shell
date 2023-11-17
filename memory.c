@@ -12,9 +12,9 @@ int bfree(void **ptr)
 	{
 		free(*ptr);
 		*ptr = NULL;
-		return (1);
+		return (SUCCESSFUL);
 	}
-	return (0);
+	return (NEUTRAL);
 }
 
 /**

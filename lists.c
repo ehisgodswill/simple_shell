@@ -107,7 +107,7 @@ int delete_node_at_index(list_t **head, unsigned int index)
 	unsigned int i = 0;
 
 	if (!head || !*head)
-		return (0);
+		return (NEUTRAL);
 
 	if (!index)
 	{
@@ -115,7 +115,7 @@ int delete_node_at_index(list_t **head, unsigned int index)
 		*head = (*head)->next;
 		free(node->str);
 		free(node);
-		return (1);
+		return (SUCCESSFUL);
 	}
 	node = *head;
 	while (node)
@@ -125,13 +125,13 @@ int delete_node_at_index(list_t **head, unsigned int index)
 			prev_node->next = node->next;
 			free(node->str);
 			free(node);
-			return (1);
+			return (SUCCESSFUL);
 		}
 		i++;
 		prev_node = node;
 		node = node->next;
 	}
-	return (0);
+	return (NEUTRAL);
 }
 
 /**
